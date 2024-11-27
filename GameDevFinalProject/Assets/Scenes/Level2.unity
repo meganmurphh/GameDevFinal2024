@@ -3205,7 +3205,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   balloonsParent: {fileID: 773690710}
-  nextSceneName: StartingScene
+  nextSceneName: Level3
 --- !u!1 &1459870572
 GameObject:
   m_ObjectHideFlags: 0
