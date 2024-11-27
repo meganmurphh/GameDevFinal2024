@@ -4,17 +4,21 @@ using UnityEngine;
 
 public class PopBalloon : MonoBehaviour
 {
-    public string birdTag = "Bird";
+    public string balloonTag = "Balloon";
+    private GameManager gameManager;
+
+    void Start()
+    {
+        gameManager = FindObjectOfType<GameManager>();
+    }
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        // Check if the object entering the trigger has the "Bird" tag
-        if (other.CompareTag(birdTag))
+        if (other.CompareTag(balloonTag))
         {
-            Debug.Log("Bird popped the balloon!"); // Make sure this log appears in the console
+            gameManager.BalloonPopped();
 
-            // Destroy the balloon when the bird touches it
-            Destroy(gameObject);
+            Destroy(other.gameObject);
         }
     }
 }
