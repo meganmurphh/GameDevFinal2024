@@ -6,10 +6,13 @@ public class FollowMouse : MonoBehaviour
     public float checkRadius = 0.3f;
     public LayerMask mazeLayer;
 
+    private Rigidbody2D rb;
     private Transform spriteTransform;
 
     void Start()
     {
+        rb = GetComponent<Rigidbody2D>();
+        rb.freezeRotation = true;
         spriteTransform = transform.GetChild(0);
     }
 
@@ -25,7 +28,7 @@ public class FollowMouse : MonoBehaviour
 
         if (!IsCollidingWithMaze(targetPosition))
         {
-            spriteTransform.position = Vector3.MoveTowards(spriteTransform.position, targetPosition, followSpeed * Time.deltaTime);
+            rb.MovePosition(Vector3.MoveTowards(rb.position, targetPosition, followSpeed * Time.deltaTime));
         }
         else
         {
