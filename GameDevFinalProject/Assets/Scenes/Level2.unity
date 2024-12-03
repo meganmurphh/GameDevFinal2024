@@ -140,7 +140,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &160284897
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2218,11 +2218,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2787598053806573124, guid: 3338530678f6dc1469e15530c927e585, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.23
+      value: 0.19
       objectReference: {fileID: 0}
     - target: {fileID: 2787598053806573124, guid: 3338530678f6dc1469e15530c927e585, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.23
+      value: 0.19
       objectReference: {fileID: 0}
     - target: {fileID: 2787598053806573124, guid: 3338530678f6dc1469e15530c927e585, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2454,7 +2454,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.15, y: 0.8}
+  m_Size: {x: 0.9, y: 0.7}
   m_EdgeRadius: 0
 --- !u!114 &965297561
 MonoBehaviour:
