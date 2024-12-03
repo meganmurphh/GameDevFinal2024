@@ -4,6 +4,7 @@ public class FollowMouse : MonoBehaviour
 {
     public float followSpeed = 20f;
     public float checkRadius = 0.3f;
+    public float deadZoneRadius = 0.1f;
     public LayerMask mazeLayer;
 
     private Rigidbody2D rb;
@@ -24,22 +25,29 @@ public class FollowMouse : MonoBehaviour
 
         Vector3 directionToMouse = mousePosition - spriteTransform.position;
 
-        Vector3 targetPosition = spriteTransform.position + directionToMouse.normalized * followSpeed * Time.deltaTime;
-
-        if (!IsCollidingWithMaze(targetPosition))
+        
+        if (directionToMouse.magnitude > deadZoneRadius)
         {
-            rb.MovePosition(Vector3.MoveTowards(rb.position, targetPosition, followSpeed * Time.deltaTime));
+            Vector3 targetPosition = spriteTransform.position + directionToMouse.normalized * followSpeed * Time.deltaTime;
+
+            if (!IsCollidingWithMaze(targetPosition))
+            {
+                rb.MovePosition(Vector3.MoveTowards(rb.position, targetPosition, followSpeed * Time.deltaTime));
+            }
+            else
+            {
+                Debug.Log("Collision detected at: " + targetPosition);
+            }
         }
         else
         {
-            Debug.Log("Collision detected at: " + targetPosition);
+            rb.velocity = Vector2.zero;
         }
     }
 
     bool IsCollidingWithMaze(Vector3 targetPosition)
     {
         Collider2D collider = Physics2D.OverlapCircle(targetPosition, checkRadius, mazeLayer);
-
         return collider != null;
     }
 }
