@@ -42,15 +42,14 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
-        // Implement Singleton pattern to persist GameManager
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(gameObject); // Preserve this GameObject across scenes
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
-            Destroy(gameObject); // Destroy duplicate instances
+            Destroy(gameObject);
         }
     }
 
@@ -89,7 +88,6 @@ public class GameManager : MonoBehaviour
 
         Time.timeScale = 1f;
 
-        // Subscribe to scene loaded event
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
@@ -117,19 +115,19 @@ public class GameManager : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        // Reassign UI elements when a new scene is loaded
         ReassignUIElements();
     }
 
     void ReassignUIElements()
     {
-        // Dynamically find UI elements in the new scene
+        scoreText = GameObject.Find("ScoreText")?.GetComponent<Text>();
+        Debug.Log(scoreText != null ? "ScoreText found!" : "ScoreText missing!");
+
         scoreText = GameObject.Find("Score")?.GetComponent<Text>();
         timerText = GameObject.Find("Timer")?.GetComponent<Text>();
         livesText = GameObject.Find("Lives")?.GetComponent<Text>();
         levelText = GameObject.Find("Level")?.GetComponent<Text>();
 
-        // Update the UI with current data
         UpdateUI();
     }
 
