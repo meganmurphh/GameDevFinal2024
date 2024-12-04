@@ -11,10 +11,10 @@ public class GameManager : MonoBehaviour
     public Text timerText;
     public Text livesText;
     public Text levelText;
-    public InputField feedbackInputField;
-
-    public GameObject pauseMenu;
-    public GameObject endMenu;
+    public Text finalScoreText; // Reference to the "Description" text in the End Screen
+    public InputField feedbackInputField; // For player feedback
+    public GameObject endMenu;  // Reference to the End Screen Canvas
+    public GameObject pauseMenu; // Reference to the Pause Menu Canvas
 
     // Game Variables
     public GameObject balloonsParent; // Parent containing all balloons
@@ -171,28 +171,42 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("Session ended.");
         SaveSessionData();
-        Time.timeScale = 0f;
+
+        // Update the final score text in the End Menu
+        if (finalScoreText != null)
+        {
+            finalScoreText.text = "Here is your final score: " + score;
+        }
+
+        // Show the End Menu
         endMenu.SetActive(true);
+        Time.timeScale = 0f; // Pause the game
     }
 
     // Saves session data locally
     void SaveSessionData()
     {
+        // Get the feedback from the input field
         string feedback = feedbackInputField?.text ?? "No feedback provided";
 
+        // Create the session data object
         SessionData data = new SessionData
         {
             PlayerID = playerID,
             StartTime = sessionStartTime.ToString("yyyy-MM-dd HH:mm:ss"),
             Duration = (sessionDuration - remainingTime).ToString("F2") + " seconds",
             Score = score,
-            Feedback = feedback
+            Feedback = feedback // Include the feedback in the JSON data
         };
 
+        // Define the file path
         string filePath = Path.Combine(Application.persistentDataPath, "SessionData.json");
+
+        // Serialize the data to JSON and save it to the file
         File.WriteAllText(filePath, JsonUtility.ToJson(data, true));
         Debug.Log("Session data saved to: " + filePath);
     }
+
 
     // Pauses or resumes the game
     public void TogglePause()
@@ -205,12 +219,14 @@ public class GameManager : MonoBehaviour
     // Restarts the game
     public void RestartGame()
     {
+        Time.timeScale = 1f;
         SceneManager.LoadScene(levels[0]); // Restart from the first level
     }
 
     // Quits the game
     public void QuitGame()
     {
+        Debug.Log("Quitting the game...");
         Application.Quit();
     }
 
