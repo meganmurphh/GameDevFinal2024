@@ -2,10 +2,10 @@ using UnityEngine;
 
 public class StartScreenManager : MonoBehaviour
 {
-    public GameObject startScreenCanvas; // Reference to the start screen canvas
-    public GameObject player;           // Reference to the player object
+    public GameObject startScreenCanvas;
+    public GameObject player;
 
-    private FollowMouse followMouseScript; // Reference to the FollowMouse component
+    private FollowMouse followMouseScript;
 
     void Start()
     {
