@@ -17,7 +17,6 @@ public class PopBalloon : MonoBehaviour
         if (other.CompareTag(balloonTag))
         {
             gameManager.BalloonPopped();
-
             Destroy(other.gameObject);
         }
     }
