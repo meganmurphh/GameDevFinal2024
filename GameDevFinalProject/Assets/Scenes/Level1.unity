@@ -2847,7 +2847,7 @@ Canvas:
   m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 0
-  m_Camera: {fileID: 0}
+  m_Camera: {fileID: 963194227}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -4179,7 +4179,7 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 0
 --- !u!114 &1479225051
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4224,7 +4224,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!224 &1479225053
 RectTransform:
@@ -6426,10 +6426,10 @@ SceneRoots:
   - {fileID: 1792361436}
   - {fileID: 1926988991}
   - {fileID: 5353322157676784003}
+  - {fileID: 1479225053}
   - {fileID: 652709478}
   - {fileID: 1090964515}
   - {fileID: 2111265099}
-  - {fileID: 1479225053}
   - {fileID: 690209558}
   - {fileID: 376635571}
   - {fileID: 1548001222}
