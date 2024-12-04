@@ -11,48 +11,44 @@ public class GameManager : MonoBehaviour
     public Text timerText;
     public Text livesText;
     public Text levelText;
-    public Text finalScoreText; // Reference to the "Description" text in the End Screen
-    public InputField feedbackInputField; // For player feedback
-    public GameObject endMenu;  // Reference to the End Screen Canvas
-    public GameObject pauseMenu; // Reference to the Pause Menu Canvas
+    public Text finalScoreText;
+    public InputField feedbackInputField;
+    public GameObject endMenu;
+    public GameObject pauseMenu;
 
     // Game Variables
-    public GameObject balloonsParent; // Parent containing all balloons
-    public GameObject player;         // Reference to the player object
-    public Transform playerStartPosition; // Starting position of the player
+    public GameObject balloonsParent;
+    public GameObject player;
+    public Transform playerStartPosition;
 
-    public int totalLives = 3;        // Total player lives
-    public float sessionDuration = 240f; // 4 minutes
+    public int totalLives = 3;
+    public float sessionDuration = 240f;
 
-    private int score = 0;            // Player's score
-    private int lives;                // Current lives
-    private int totalBalloons = 0;    // Total number of balloons in the level
-    private int balloonsPopped = 0;   // Balloons popped
-    private float remainingTime;      // Remaining session time
-    private bool isPaused = false;    // Pause state
+    private int score = 0;
+    private int lives;
+    private int totalBalloons = 0;
+    private int balloonsPopped = 0;
+    private float remainingTime;
+    private bool isPaused = false;
 
-    private DateTime sessionStartTime; // Time when the session started
-    private string playerID = "Player_" + Guid.NewGuid(); // Unique player ID
+    private DateTime sessionStartTime;
+    private string playerID = "Player_" + Guid.NewGuid();
 
-    // Level Management
-    public string[] levels;           // Array of level scene names
+    public string[] levels;
     private int currentLevelIndex = 0;
 
     void Start()
     {
-        // Initialize variables
         lives = totalLives;
         remainingTime = sessionDuration;
         sessionStartTime = DateTime.Now;
 
-        // Validate the levels array
         if (levels == null || levels.Length == 0)
         {
             Debug.LogError("Levels array is not initialized! Please assign scene names in the Inspector.");
             return;
         }
 
-        // Get the current level index based on the active scene
         string currentSceneName = SceneManager.GetActiveScene().name;
         currentLevelIndex = Array.IndexOf(levels, currentSceneName);
 
@@ -62,7 +58,6 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        // Count the balloons at the start
         if (balloonsParent != null)
         {
             totalBalloons = balloonsParent.transform.childCount;
@@ -72,19 +67,14 @@ public class GameManager : MonoBehaviour
             Debug.LogWarning("BalloonsParent not assigned in GameManager!");
         }
 
-        // Reset the player position
         ResetPlayerPosition();
-
-        // Update UI
         UpdateUI();
 
-        // Ensure game is running
         Time.timeScale = 1f;
     }
 
     void Update()
     {
-        // Update timer
         if (remainingTime > 0)
         {
             remainingTime -= Time.deltaTime;
@@ -100,26 +90,26 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // Called when the player collides with a red zone or bomb
+
     public void PlayerHitObstacle()
     {
-        lives--; // Decrease lives
+        lives--;
 
         if (lives > 0)
         {
             Debug.Log($"Player hit an obstacle! Lives remaining: {lives}");
-            ResetPlayerPosition(); // Restart the player
+            ResetPlayerPosition();
         }
         else
         {
             Debug.Log("Game Over! Lives exhausted.");
-            EndSession(); // End the game if lives are 0
+            EndSession();
         }
 
-        UpdateUI(); // Update the UI to reflect changes in lives
+        UpdateUI();
     }
 
-    // Called by PopBalloon script when a balloon is popped
+
     public void BalloonPopped()
     {
         balloonsPopped++;
@@ -135,7 +125,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // Resets the player's position to the starting point
     void ResetPlayerPosition()
     {
         if (player != null && playerStartPosition != null)
@@ -148,7 +137,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // Loads the next level using the levels array
     void LoadNextLevel()
     {
         currentLevelIndex++;
@@ -157,7 +145,7 @@ public class GameManager : MonoBehaviour
         {
             string nextSceneName = levels[currentLevelIndex];
             Debug.Log($"Loading next level: {nextSceneName}");
-            SceneManager.LoadScene(nextSceneName); // Load the next scene by name
+            SceneManager.LoadScene(nextSceneName);
         }
         else
         {
@@ -166,49 +154,40 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // Ends the session
     void EndSession()
     {
         Debug.Log("Session ended.");
-        SaveSessionData();
 
-        // Update the final score text in the End Menu
         if (finalScoreText != null)
         {
             finalScoreText.text = "Here is your final score: " + score;
         }
 
-        // Show the End Menu
+
         endMenu.SetActive(true);
-        Time.timeScale = 0f; // Pause the game
+        Time.timeScale = 0f;
     }
 
-    // Saves session data locally
-    void SaveSessionData()
+    public void SaveSessionData()
     {
-        // Get the feedback from the input field
         string feedback = feedbackInputField?.text ?? "No feedback provided";
 
-        // Create the session data object
         SessionData data = new SessionData
         {
             PlayerID = playerID,
             StartTime = sessionStartTime.ToString("yyyy-MM-dd HH:mm:ss"),
             Duration = (sessionDuration - remainingTime).ToString("F2") + " seconds",
             Score = score,
-            Feedback = feedback // Include the feedback in the JSON data
+            Feedback = feedback
         };
 
-        // Define the file path
         string filePath = Path.Combine(Application.persistentDataPath, "SessionData.json");
-
-        // Serialize the data to JSON and save it to the file
         File.WriteAllText(filePath, JsonUtility.ToJson(data, true));
         Debug.Log("Session data saved to: " + filePath);
     }
 
 
-    // Pauses or resumes the game
+
     public void TogglePause()
     {
         isPaused = !isPaused;
@@ -216,21 +195,21 @@ public class GameManager : MonoBehaviour
         Time.timeScale = isPaused ? 0f : 1f;
     }
 
-    // Restarts the game
+
     public void RestartGame()
     {
         Time.timeScale = 1f;
-        SceneManager.LoadScene(levels[0]); // Restart from the first level
+        SceneManager.LoadScene(levels[0]);
     }
 
-    // Quits the game
+
     public void QuitGame()
     {
         Debug.Log("Quitting the game...");
         Application.Quit();
     }
 
-    // Updates the UI elements
+
     void UpdateUI()
     {
         if (scoreText != null)
@@ -250,7 +229,6 @@ public class GameManager : MonoBehaviour
     }
 }
 
-// Serializable structure for session data
 [Serializable]
 public class SessionData
 {
