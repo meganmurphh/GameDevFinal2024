@@ -88,6 +88,28 @@ public class GameManager : MonoBehaviour
         {
             EndSession();
         }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            TogglePause();
+        }
+
+    }
+
+    public void TogglePause()
+    {
+        isPaused = !isPaused;
+
+        pauseMenu.SetActive(isPaused);
+
+        Time.timeScale = isPaused ? 0f : 1f;
+    }
+
+    public void ResumeGame()
+    {
+        isPaused = false;
+        pauseMenu.SetActive(false);
+        Time.timeScale = 1f;
     }
 
 
@@ -184,15 +206,6 @@ public class GameManager : MonoBehaviour
         string filePath = Path.Combine(Application.persistentDataPath, "SessionData.json");
         File.WriteAllText(filePath, JsonUtility.ToJson(data, true));
         Debug.Log("Session data saved to: " + filePath);
-    }
-
-
-
-    public void TogglePause()
-    {
-        isPaused = !isPaused;
-        pauseMenu.SetActive(isPaused);
-        Time.timeScale = isPaused ? 0f : 1f;
     }
 
 
