@@ -6,6 +6,9 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    // Singleton instance
+    private static GameManager instance;
+
     // UI References
     public Text scoreText;
     public Text timerText;
@@ -36,6 +39,20 @@ public class GameManager : MonoBehaviour
 
     public string[] levels;
     private int currentLevelIndex = 0;
+
+    void Awake()
+    {
+        // Implement Singleton pattern to persist GameManager
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject); // Preserve this GameObject across scenes
+        }
+        else
+        {
+            Destroy(gameObject); // Destroy duplicate instances
+        }
+    }
 
     void Start()
     {
@@ -71,6 +88,9 @@ public class GameManager : MonoBehaviour
         UpdateUI();
 
         Time.timeScale = 1f;
+
+        // Subscribe to scene loaded event
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     void Update()
@@ -93,7 +113,24 @@ public class GameManager : MonoBehaviour
         {
             TogglePause();
         }
+    }
 
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        // Reassign UI elements when a new scene is loaded
+        ReassignUIElements();
+    }
+
+    void ReassignUIElements()
+    {
+        // Dynamically find UI elements in the new scene
+        scoreText = GameObject.Find("Score")?.GetComponent<Text>();
+        timerText = GameObject.Find("Timer")?.GetComponent<Text>();
+        livesText = GameObject.Find("Lives")?.GetComponent<Text>();
+        levelText = GameObject.Find("Level")?.GetComponent<Text>();
+
+        // Update the UI with current data
+        UpdateUI();
     }
 
     public void TogglePause()
@@ -112,7 +149,6 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1f;
     }
 
-
     public void PlayerHitObstacle()
     {
         lives--;
@@ -130,7 +166,6 @@ public class GameManager : MonoBehaviour
 
         UpdateUI();
     }
-
 
     public void BalloonPopped()
     {
@@ -185,7 +220,6 @@ public class GameManager : MonoBehaviour
             finalScoreText.text = "Here is your final score: " + score;
         }
 
-
         endMenu.SetActive(true);
         Time.timeScale = 0f;
     }
@@ -208,20 +242,17 @@ public class GameManager : MonoBehaviour
         Debug.Log("Session data saved to: " + filePath);
     }
 
-
     public void RestartGame()
     {
         Time.timeScale = 1f;
         SceneManager.LoadScene(levels[0]);
     }
 
-
     public void QuitGame()
     {
         Debug.Log("Quitting the game...");
         Application.Quit();
     }
-
 
     void UpdateUI()
     {

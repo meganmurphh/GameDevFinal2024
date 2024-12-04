@@ -538,8 +538,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d52c6683936625469e8f3efbc0e6d2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  followSpeed: 50
+  followSpeed: 20
   checkRadius: 0.3
+  deadZoneRadius: 0.1
   mazeLayer:
     serializedVersion: 2
     m_Bits: 8
@@ -2300,8 +2301,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ae7972a3cd297a4782bf1a0a03c3258, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scoreText: {fileID: 0}
+  timerText: {fileID: 0}
+  livesText: {fileID: 0}
+  levelText: {fileID: 0}
+  finalScoreText: {fileID: 0}
+  feedbackInputField: {fileID: 0}
+  endMenu: {fileID: 0}
+  pauseMenu: {fileID: 0}
   balloonsParent: {fileID: 765874644}
-  nextSceneName: Level4
+  player: {fileID: 0}
+  playerStartPosition: {fileID: 0}
+  totalLives: 3
+  sessionDuration: 240
+  levels: []
 --- !u!1 &1637287740
 GameObject:
   m_ObjectHideFlags: 0
