@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
     public InputField feedbackInputField;
     public GameObject endMenu;
     public GameObject pauseMenu;
+    public Slider timerSlider;
 
     // Game Variables
     public GameObject balloonsParent;
@@ -89,6 +90,12 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1f;
 
         SceneManager.sceneLoaded += OnSceneLoaded;
+
+        if (timerSlider != null)
+        {
+            timerSlider.maxValue = sessionDuration;
+            timerSlider.value = remainingTime;
+        }
     }
 
     void Update()
@@ -99,7 +106,15 @@ public class GameManager : MonoBehaviour
 
             if (timerText != null)
             {
-                timerText.text = "Time: " + Mathf.CeilToInt(remainingTime) + "s";
+                int minutes = Mathf.FloorToInt(remainingTime / 60);
+                int seconds = Mathf.FloorToInt(remainingTime % 60);
+
+                timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+            }
+
+            if (timerSlider != null)
+            {
+                timerSlider.value = remainingTime;
             }
         }
         else
