@@ -5940,6 +5940,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   balloonTag: Balloon
+--- !u!114 &1647701277
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1647701265}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 710dca5e29d2acc4e998cb020b3be456, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1665739545
 GameObject:
   m_ObjectHideFlags: 0
@@ -6716,6 +6728,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 583695733544047215, guid: 3f8a6251b34f48241acb8fd738eb8ae5, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1647701272}
+    - targetCorrespondingSourceObject: {fileID: 583695733544047215, guid: 3f8a6251b34f48241acb8fd738eb8ae5, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1647701277}
   m_SourcePrefab: {fileID: 100100000, guid: 3f8a6251b34f48241acb8fd738eb8ae5, type: 3}
 --- !u!1 &1980468312
 GameObject:
@@ -7381,14 +7396,6 @@ PrefabInstance:
     - target: {fileID: 2017854735158998421, guid: ab3f8340f699d6a4b801982cca289406, type: 3}
       propertyPath: m_Name
       value: bomb
-      objectReference: {fileID: 0}
-    - target: {fileID: 6553951004127392081, guid: ab3f8340f699d6a4b801982cca289406, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.25
-      objectReference: {fileID: 0}
-    - target: {fileID: 6553951004127392081, guid: ab3f8340f699d6a4b801982cca289406, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 6553951004127392081, guid: ab3f8340f699d6a4b801982cca289406, type: 3}
       propertyPath: m_LocalPosition.x
