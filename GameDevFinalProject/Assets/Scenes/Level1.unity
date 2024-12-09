@@ -5497,8 +5497,24 @@ PrefabInstance:
       value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 3173748369129310743, guid: 3f8a6251b34f48241acb8fd738eb8ae5, type: 3}
+      propertyPath: startPosition
+      value: 
+      objectReference: {fileID: 376635571}
+    - target: {fileID: 3173748369129310743, guid: 3f8a6251b34f48241acb8fd738eb8ae5, type: 3}
       propertyPath: deadZoneRadius
-      value: 0.005
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 3173748369129310743, guid: 3f8a6251b34f48241acb8fd738eb8ae5, type: 3}
+      propertyPath: stoppingDistance
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3173748369129310743, guid: 3f8a6251b34f48241acb8fd738eb8ae5, type: 3}
+      propertyPath: balloonLayer.m_Bits
+      value: 128
+      objectReference: {fileID: 0}
+    - target: {fileID: 3173748369129310743, guid: 3f8a6251b34f48241acb8fd738eb8ae5, type: 3}
+      propertyPath: obstacleLayer.m_Bits
+      value: 256
       objectReference: {fileID: 0}
     - target: {fileID: 3767305729815745180, guid: 3f8a6251b34f48241acb8fd738eb8ae5, type: 3}
       propertyPath: m_LocalPosition.x
