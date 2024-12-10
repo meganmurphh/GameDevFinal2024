@@ -4295,6 +4295,7 @@ MonoBehaviour:
   pauseMenu: {fileID: 2111265095}
   timerSlider: {fileID: 817817068}
   levelCompleteCanvas: {fileID: 578689603}
+  startLevelCanvas: {fileID: 0}
   balloonsParent: {fileID: 1548001221}
   player: {fileID: 1647701265}
   playerStartPosition: {fileID: 376635571}
@@ -6660,7 +6661,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d4274a508f3c7540a1eb8f07021c9ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  balloonTag: Balloon
+  balloonPopAnimation: {fileID: 4021103657954561961, guid: 5c755f9bc5253ea418e919994537dcc7, type: 3}
 --- !u!114 &1647701277
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6673,6 +6674,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 710dca5e29d2acc4e998cb020b3be456, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  explosionAnimation: {fileID: 2433282508537954060, guid: 3ef3ae421f71c5c4e97fe12dc2fc6312, type: 3}
 --- !u!1 &1665739545
 GameObject:
   m_ObjectHideFlags: 0

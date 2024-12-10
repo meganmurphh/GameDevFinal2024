@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class PopBalloon : MonoBehaviour
 {
-    public string balloonTag = "Balloon";
+    private string balloonTag = "Balloon";
     private GameManager gameManager;
+    public GameObject balloonPopAnimation;
 
     void Start()
     {
@@ -17,6 +18,16 @@ public class PopBalloon : MonoBehaviour
         if (other.CompareTag(balloonTag))
         {
             gameManager.BalloonPopped();
+
+            if (balloonPopAnimation != null)
+            {
+                Instantiate(balloonPopAnimation, other.transform.position, Quaternion.identity);
+            }
+            else
+            {
+                Debug.LogWarning("Pop animation prefab not assigned!");
+            }
+
             Destroy(other.gameObject);
         }
     }

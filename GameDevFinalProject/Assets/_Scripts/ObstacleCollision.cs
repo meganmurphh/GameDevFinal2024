@@ -2,6 +2,10 @@ using UnityEngine;
 
 public class ObstacleCollision : MonoBehaviour
 {
+
+    public GameObject explosionAnimation;
+    public GameObject elimZoneAnimation;
+
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Bomb"))
@@ -9,7 +13,42 @@ public class ObstacleCollision : MonoBehaviour
             GameManager gameManager = FindObjectOfType<GameManager>();
             if (gameManager != null)
             {
-                gameManager.PlayerHitObstacle(); // Notify GameManager
+                gameManager.PlayerHitObstacle();
+
+                if (explosionAnimation != null)
+                {
+                    Instantiate(explosionAnimation, other.transform.position, Quaternion.identity);
+                }
+                else
+                {
+                    Debug.LogWarning("bomb animation prefab not assigned");
+                }
+
+                Destroy(other.gameObject);
+
+            }
+            else
+            {
+                Debug.LogError("GameManager not found!");
+            }
+        }
+
+        if (other.CompareTag("ElimZone"))
+        {
+            GameManager gameManager = FindObjectOfType<GameManager>();
+            if (gameManager != null)
+            {
+                gameManager.PlayerHitObstacle();
+
+                if (elimZoneAnimation != null)
+                {
+                    Instantiate(elimZoneAnimation, other.transform.position, Quaternion.identity);
+                }
+                else
+                {
+                    Debug.LogWarning("elim zone animation prefab not assigned");
+                }
+
             }
             else
             {

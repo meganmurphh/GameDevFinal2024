@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 2498215784067214349}
   m_Layer: 0
   m_Name: ElimZone
-  m_TagString: Bomb
+  m_TagString: ElimZone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -98,6 +98,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 710dca5e29d2acc4e998cb020b3be456, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  explosionAnimation: {fileID: 0}
 --- !u!61 &2508146430903594038
 BoxCollider2D:
   m_ObjectHideFlags: 0
