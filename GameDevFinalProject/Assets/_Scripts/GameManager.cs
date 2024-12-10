@@ -31,10 +31,9 @@ public class GameManager : MonoBehaviour
     public GameObject player;
 
     //Canvases
-    public GameObject endMenuCavas;
+    public GameObject endMenuCanvas;
     public GameObject pauseMenuCanvas;
     public GameObject levelCompleteCanvas;
-    public GameObject startGameCavas;
     public GameObject startLevelCanvas;
 
     void Awake()
@@ -128,13 +127,12 @@ public class GameManager : MonoBehaviour
         balloonsPopped++;
         score++;
 
-        Debug.Log($"Balloon popped! {balloonsPopped}/{totalBalloons} balloons collected.");
-
         UpdateUI();
 
         if (balloonsPopped == totalBalloons)
         {
-            Debug.Log("All balloons collected! Advancing to the next level.");
+            ShowLevelCompleteCanvas();
+
             LoadNextLevel();
         }
     }
@@ -167,6 +165,7 @@ public class GameManager : MonoBehaviour
         }
 
         SaveSessionData();
+        endMenuCanvas.SetActive(true);
         Time.timeScale = 0f;
     }
 
