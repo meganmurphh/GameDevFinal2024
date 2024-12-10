@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -115,10 +116,21 @@ public class GameManager : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        ResetPlayerPosition();
+        Debug.Log("Scene Loaded: " + scene.name);
+        uiManager = UIManager.Instance;
+
+        if (uiManager == null)
+        {
+            Debug.LogError("UIManager is null in OnSceneLoaded!");
+            return;
+        }
+
+        uiManager.Initialize();
         uiManager.UpdateLevelNumber(currentLevelIndex + 1);
         UpdateUI();
     }
+
+
 
     void OnDestroy()
     {
@@ -153,6 +165,7 @@ public class GameManager : MonoBehaviour
         if (lives > 0)
         {
             ResetPlayerPosition();
+            StartCoroutine(ShowStartLevelCanvasWithDelay());
         }
         else
         {
@@ -160,6 +173,13 @@ public class GameManager : MonoBehaviour
         }
 
         uiManager.UpdateLives(lives);
+    }
+
+    private IEnumerator ShowStartLevelCanvasWithDelay()
+    {
+        yield return new WaitForSeconds(1.5f);
+
+        ShowStartLevelCanvas();
     }
 
     public void BalloonPopped()

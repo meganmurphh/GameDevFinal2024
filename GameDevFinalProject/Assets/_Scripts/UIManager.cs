@@ -19,6 +19,7 @@ public class UIManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
+            Initialize();
         }
         else
         {
