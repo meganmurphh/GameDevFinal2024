@@ -4286,7 +4286,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   balloonsParent: {fileID: 1548001221}
-  player: {fileID: 1647701265}
   playerStartPosition: {fileID: 376635571}
   totalLives: 3
   sessionDuration: 240
@@ -4295,8 +4294,6 @@ MonoBehaviour:
   - Level2
   - Level3
   - Level4
-  levelCompleteCanvas: {fileID: 578689603}
-  startLevelCanvas: {fileID: 652709474}
 --- !u!1 &1000315005
 GameObject:
   m_ObjectHideFlags: 0
@@ -8276,6 +8273,10 @@ PrefabInstance:
     - target: {fileID: 2017854735158998421, guid: ab3f8340f699d6a4b801982cca289406, type: 3}
       propertyPath: m_Name
       value: bomb
+      objectReference: {fileID: 0}
+    - target: {fileID: 2017854735158998421, guid: ab3f8340f699d6a4b801982cca289406, type: 3}
+      propertyPath: m_TagString
+      value: Bomb
       objectReference: {fileID: 0}
     - target: {fileID: 6553951004127392081, guid: ab3f8340f699d6a4b801982cca289406, type: 3}
       propertyPath: m_LocalPosition.x

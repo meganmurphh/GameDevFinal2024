@@ -5,14 +5,10 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    private static GameManager instance;
-
     private UIManager uiManager;
 
     public GameObject balloonsParent;
-    public GameObject player;
     public Transform playerStartPosition;
-
     public int totalLives = 3;
     public float sessionDuration = 240f;
 
@@ -21,8 +17,8 @@ public class GameManager : MonoBehaviour
     private int totalBalloons = 0;
     private int balloonsPopped = 0;
     private float remainingTime;
-    private bool isPaused = false;
     private bool sessionEnded = false;
+    private bool isPaused = false; // Pause state
 
     private DateTime sessionStartTime;
     private string playerID = "Player_" + Guid.NewGuid();
@@ -30,22 +26,15 @@ public class GameManager : MonoBehaviour
     public string[] levels;
     private int currentLevelIndex = 0;
 
-    public GameObject levelCompleteCanvas;
-    public GameObject startLevelCanvas;
-
     void Awake()
     {
-        if (instance == null)
-        {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
+        if (FindObjectsOfType<GameManager>().Length > 1)
         {
             Destroy(gameObject);
+            return;
         }
 
-        SceneManager.sceneLoaded += OnSceneLoaded;
+        DontDestroyOnLoad(gameObject);
     }
 
     void Start()
@@ -54,96 +43,158 @@ public class GameManager : MonoBehaviour
         remainingTime = sessionDuration;
         sessionStartTime = DateTime.Now;
 
-        if (levels == null || levels.Length == 0)
+        if (playerStartPosition == null)
         {
-            Debug.LogError("Levels array is not initialized! Please assign scene names in the Inspector.");
+            Debug.LogError("PlayerStartPosition is not assigned in GameManager!");
             return;
         }
 
-        string currentSceneName = SceneManager.GetActiveScene().name;
-        currentLevelIndex = Array.IndexOf(levels, currentSceneName);
-
-        if (currentLevelIndex == -1)
+        if (balloonsParent == null)
         {
-            Debug.LogError($"Current scene '{currentSceneName}' is not in the levels array!");
-            return;
+            balloonsParent = GameObject.Find("BalloonsParent");
+            if (balloonsParent == null)
+            {
+                Debug.LogError("BalloonsParent not found in the scene!");
+                return;
+            }
         }
 
-        uiManager = UIManager.Instance;
+        totalBalloons = balloonsParent.transform.childCount;
+        Debug.Log($"Total balloons in this level: {totalBalloons}");
+
+        uiManager = FindObjectOfType<UIManager>();
         if (uiManager == null)
         {
             Debug.LogError("UIManager not found! Ensure the UIManager is in the scene.");
             return;
         }
 
-        if (balloonsParent != null)
-        {
-            totalBalloons = balloonsParent.transform.childCount;
-        }
-
-        ResetPlayerPosition();
         UpdateUI();
-
-        if (currentLevelIndex > 0)
-        {
-            ShowStartLevelCanvas();
-        }
-        else
-        {
-            Time.timeScale = 1f;
-        }
     }
 
     void Update()
     {
-        if (remainingTime > 0)
+        if (remainingTime > 0 && !sessionEnded)
         {
             remainingTime -= Time.deltaTime;
 
-            uiManager.UpdateTimer(remainingTime, sessionDuration);
+            if (uiManager != null)
+            {
+                uiManager.UpdateTimer(remainingTime, sessionDuration);
+            }
         }
-        else
+        else if (!sessionEnded)
         {
             EndSession();
         }
-
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            TogglePause();
-        }
-    }
-
-    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        ResetPlayerPosition();
-        uiManager.UpdateLevelNumber(currentLevelIndex + 1);
-        UpdateUI();
-    }
-
-    void OnDestroy()
-    {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
-    }
-
-    void ShowStartLevelCanvas()
-    {
-        if (startLevelCanvas != null)
-        {
-            startLevelCanvas.SetActive(true);
-            Time.timeScale = 0f;
-        }
-    }
-
-    public void StartLevel()
-    {
-        startLevelCanvas.SetActive(false);
-        Time.timeScale = 1f;
     }
 
     public void TogglePause()
     {
         isPaused = !isPaused;
         Time.timeScale = isPaused ? 0f : 1f;
+        Debug.Log(isPaused ? "Game Paused" : "Game Resumed");
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        Debug.Log($"Scene loaded: {scene.name}");
+
+        balloonsParent = GameObject.Find("BalloonsParent");
+        if (balloonsParent != null)
+        {
+            totalBalloons = balloonsParent.transform.childCount;
+            balloonsPopped = 0;
+            Debug.Log($"Total balloons in this level: {totalBalloons}");
+        }
+        else
+        {
+            Debug.LogError("BalloonsParent not found in the new scene!");
+        }
+
+        uiManager = FindObjectOfType<UIManager>();
+        if (uiManager != null)
+        {
+            UpdateUI();
+        }
+    }
+
+    public void BalloonPopped()
+    {
+        balloonsPopped++;
+        score++;
+
+        Debug.Log($"Balloon popped! {balloonsPopped}/{totalBalloons} balloons collected.");
+
+        UpdateUI();
+
+        if (balloonsPopped == totalBalloons)
+        {
+            Debug.Log("All balloons collected! Advancing to the next level.");
+            LoadNextLevel();
+        }
+    }
+
+    public void LoadNextLevel()
+    {
+        currentLevelIndex++;
+
+        if (currentLevelIndex < levels.Length)
+        {
+            string nextSceneName = levels[currentLevelIndex];
+            Debug.Log($"Loading next level: {nextSceneName}");
+            SceneManager.sceneLoaded += OnSceneLoaded;
+            SceneManager.LoadScene(nextSceneName);
+        }
+        else
+        {
+            Debug.Log("No more levels to load. Ending session.");
+            EndSession();
+        }
+    }
+
+    void EndSession()
+    {
+        sessionEnded = true;
+
+        if (uiManager != null)
+        {
+            uiManager.DisplayFinalScore(score);
+        }
+
+        SaveSessionData();
+        Time.timeScale = 0f;
+    }
+
+    public void SaveSessionData()
+    {
+        try
+        {
+            string filePath = Path.Combine(Application.persistentDataPath, "SessionData.json");
+            File.WriteAllText(filePath, JsonUtility.ToJson(new SessionData
+            {
+                PlayerID = playerID,
+                StartTime = sessionStartTime.ToString("yyyy-MM-dd HH:mm:ss"),
+                Duration = (sessionDuration - remainingTime).ToString("F2") + " seconds",
+                Score = score,
+                Feedback = uiManager?.GetFeedback() ?? "No feedback"
+            }, true));
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"Failed to save session data: {ex.Message}");
+        }
+    }
+
+    public void UpdateUI()
+    {
+        if (uiManager != null)
+        {
+            uiManager.UpdateScore(score);
+            uiManager.UpdateLives(lives);
+            uiManager.UpdateTimer(remainingTime, sessionDuration);
+            uiManager.UpdateLevelNumber(currentLevelIndex + 1);
+        }
     }
 
     public void PlayerHitObstacle()
@@ -159,90 +210,33 @@ public class GameManager : MonoBehaviour
             EndSession();
         }
 
-        uiManager.UpdateLives(lives);
+        UpdateUI();
     }
 
-    public void BalloonPopped()
+    public void ResetPlayerPosition()
     {
-        balloonsPopped++;
-        score++;
+        GameObject player = GameObject.FindGameObjectWithTag("Bird");
 
-        uiManager.UpdateScore(score);
-
-        if (balloonsPopped == totalBalloons)
-        {
-            ShowLevelCompleteCanvas();
-        }
-    }
-
-    void ShowLevelCompleteCanvas()
-    {
-        levelCompleteCanvas.SetActive(true);
-        Time.timeScale = 0f;
-    }
-
-    void ResetPlayerPosition()
-    {
         if (player != null && playerStartPosition != null)
         {
-            player.transform.position = playerStartPosition.position;
-        }
-    }
-
-    public void LoadNextLevel()
-    {
-        currentLevelIndex++;
-
-        if (currentLevelIndex < levels.Length)
-        {
-            uiManager.UpdateLevelNumber(currentLevelIndex + 1);
-            string nextSceneName = levels[currentLevelIndex];
-            SceneManager.LoadScene(nextSceneName);
-        }
-        else
-        {
-            EndSession();
-        }
-    }
-
-    void EndSession()
-    {
-        if (!sessionEnded)
-        {
-            sessionEnded = true;
-
-            uiManager.DisplayFinalScore(score);
-            SaveSessionData();
-
-            Time.timeScale = 0f;
-        }
-    }
-
-    public void SaveSessionData()
-    {
-        try
-        {
-            string filePath = Path.Combine(Application.persistentDataPath, "SessionData.json");
-            File.WriteAllText(filePath, JsonUtility.ToJson(new SessionData
+            var followMouse = player.GetComponent<FollowMouse>();
+            if (followMouse != null)
             {
-                PlayerID = playerID,
-                StartTime = sessionStartTime.ToString("yyyy-MM-dd HH:mm:ss"),
-                Duration = (sessionDuration - remainingTime).ToString("F2") + " seconds",
-                Score = score,
-                Feedback = uiManager.GetFeedback()
-            }, true));
+                followMouse.ResetPosition(playerStartPosition.position);
+            }
+            else
+            {
+                player.transform.position = playerStartPosition.position;
+            }
         }
-        catch (Exception ex)
+        else if (player == null)
         {
-            Debug.LogError($"Failed to save session data: {ex.Message}");
+            Debug.LogError("Player GameObject not found in the scene!");
         }
-    }
-
-    void UpdateUI()
-    {
-        uiManager.UpdateScore(score);
-        uiManager.UpdateLives(lives);
-        uiManager.UpdateTimer(remainingTime, sessionDuration);
+        else if (playerStartPosition == null)
+        {
+            Debug.LogError("PlayerStartPosition not assigned in GameManager!");
+        }
     }
 }
 

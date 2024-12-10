@@ -25,7 +25,6 @@ public class FollowMouse : MonoBehaviour
 
         Vector3 directionToMouse = mousePosition - spriteTransform.position;
 
-        
         if (directionToMouse.magnitude > deadZoneRadius)
         {
             Vector3 targetPosition = spriteTransform.position + directionToMouse.normalized * followSpeed * Time.deltaTime;
@@ -43,6 +42,12 @@ public class FollowMouse : MonoBehaviour
         {
             rb.velocity = Vector2.zero;
         }
+    }
+
+    public void ResetPosition(Vector3 newPosition)
+    {
+        rb.position = newPosition;
+        rb.velocity = Vector2.zero;
     }
 
     bool IsCollidingWithMaze(Vector3 targetPosition)
