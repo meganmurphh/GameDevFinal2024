@@ -6142,6 +6142,7 @@ GameObject:
   - component: {fileID: 1568803525}
   - component: {fileID: 1568803524}
   - component: {fileID: 1568803527}
+  - component: {fileID: 1568803528}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -6235,17 +6236,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ae7972a3cd297a4782bf1a0a03c3258, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scoreText: {fileID: 337957872}
-  timerText: {fileID: 120859633}
-  livesText: {fileID: 728152259}
-  levelText: {fileID: 427655340}
-  finalScoreText: {fileID: 629343283}
-  feedbackInputField: {fileID: 275744962}
-  endMenu: {fileID: 1331994922}
-  pauseMenu: {fileID: 235208289}
-  timerSlider: {fileID: 1705703697}
-  levelCompleteCanvas: {fileID: 1473464038}
-  startLevelCanvas: {fileID: 1937417623}
   balloonsParent: {fileID: 765874644}
   player: {fileID: 205503801}
   playerStartPosition: {fileID: 590578259}
@@ -6256,6 +6246,27 @@ MonoBehaviour:
   - Level2
   - Level3
   - Level4
+  levelCompleteCanvas: {fileID: 1473464038}
+  startLevelCanvas: {fileID: 1937417623}
+--- !u!114 &1568803528
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1568803523}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a1e0625a6f66a746b930e80afb93725, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scoreText: {fileID: 337957872}
+  livesText: {fileID: 728152259}
+  timerSlider: {fileID: 1705703697}
+  timerText: {fileID: 120859633}
+  levelText: {fileID: 427655340}
+  finalScoreText: {fileID: 629343283}
+  feedbackInputField: {fileID: 275744962}
 --- !u!1 &1584073590
 GameObject:
   m_ObjectHideFlags: 0
@@ -8510,11 +8521,11 @@ PrefabInstance:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 1502638383}
   - {fileID: 1568803526}
   - {fileID: 1937417627}
   - {fileID: 1156504397}
   - {fileID: 280713175}
-  - {fileID: 1502638383}
   - {fileID: 213192710}
   - {fileID: 765874645}
   - {fileID: 3058077148082356956}
