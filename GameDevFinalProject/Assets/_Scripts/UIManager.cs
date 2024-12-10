@@ -5,12 +5,14 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager Instance { get; private set; }
 
+    // UI Elements
     public Text scoreText;
     public Text livesText;
-    public Slider timerSlider;
     public Text timerText;
     public Text levelText;
     public Text finalScoreText;
+
+    public Slider timerSlider;
 
     private void Awake()
     {
@@ -27,23 +29,48 @@ public class UIManager : MonoBehaviour
 
     public void Initialize()
     {
+        if (finalScoreText == null)
+        {
+            var endScreenCanvas = GameObject.Find("EndScreenCanvas");
+            if (endScreenCanvas != null)
+            {
+                bool wasActive = endScreenCanvas.activeSelf;
+                if (!wasActive)
+                {
+                    endScreenCanvas.SetActive(true);
+                }
+
+                finalScoreText = endScreenCanvas.transform.Find("Final Score Text")?.GetComponent<Text>();
+
+                if (!wasActive)
+                {
+                    endScreenCanvas.SetActive(false);
+                }
+
+                if (finalScoreText == null)
+                {
+                    Debug.LogError("FinalScoreText is missing or not found in EndScreenCanvas.");
+                }
+            }
+            else
+            {
+                Debug.LogError("EndScreenCanvas is missing or not found in the scene.");
+            }
+        }
+
         if (scoreText == null)
             scoreText = GameObject.Find("ScoreText")?.GetComponent<Text>();
         if (livesText == null)
             livesText = GameObject.Find("LivesText")?.GetComponent<Text>();
-        if (timerSlider == null)
-            timerSlider = GameObject.Find("TimerSlider")?.GetComponent<Slider>();
         if (timerText == null)
             timerText = GameObject.Find("TimerText")?.GetComponent<Text>();
         if (levelText == null)
             levelText = GameObject.Find("LevelText")?.GetComponent<Text>();
-        if (finalScoreText == null)
-            finalScoreText = GameObject.Find("FinalScoreText")?.GetComponent<Text>();
 
-        UpdateScore(GameData.Score);
-        UpdateLives(GameData.Lives);
-        UpdateTimer(GameData.RemainingTime, 240f);
-        UpdateLevelNumber(GameData.CurrentLevel + 1);
+        if (scoreText == null) Debug.LogError("ScoreText is missing or not found in the scene.");
+        if (livesText == null) Debug.LogError("LivesText is missing or not found in the scene.");
+        if (timerText == null) Debug.LogError("TimerText is missing or not found in the scene.");
+        if (levelText == null) Debug.LogError("LevelText is missing or not found in the scene.");
     }
 
     public void UpdateScore(int score)
@@ -51,6 +78,10 @@ public class UIManager : MonoBehaviour
         if (scoreText != null)
         {
             scoreText.text = "Score: " + score;
+        }
+        else
+        {
+            Debug.LogError("ScoreText is not assigned in the scene.");
         }
     }
 
@@ -67,6 +98,10 @@ public class UIManager : MonoBehaviour
             int seconds = Mathf.FloorToInt(timeRemaining % 60);
             timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
         }
+        else
+        {
+            Debug.LogError("TimerText is not assigned in the scene.");
+        }
     }
 
     public void UpdateLives(int lives)
@@ -75,6 +110,10 @@ public class UIManager : MonoBehaviour
         {
             livesText.text = "Lives: " + lives;
         }
+        else
+        {
+            Debug.LogError("LivesText is not assigned in the scene.");
+        }
     }
 
     public void UpdateLevelNumber(int levelNumber)
@@ -82,6 +121,10 @@ public class UIManager : MonoBehaviour
         if (levelText != null)
         {
             levelText.text = "Level: " + levelNumber;
+        }
+        else
+        {
+            Debug.LogError("LevelText is not assigned in the scene.");
         }
     }
 
@@ -96,5 +139,4 @@ public class UIManager : MonoBehaviour
             Debug.LogError("FinalScoreText is not assigned in the scene.");
         }
     }
-
 }

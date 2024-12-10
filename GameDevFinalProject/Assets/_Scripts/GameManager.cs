@@ -6,23 +6,8 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    // Singleton instance
-    private static GameManager instance;
+    private UIManager uiManager;
 
-    // UI References
-    public Text scoreText;
-    public Text timerText;
-    public Text livesText;
-    public Text levelText;
-    public Text finalScoreText;
-    public InputField feedbackInputField;
-    public GameObject endMenu;
-    public GameObject pauseMenu;
-    public Slider timerSlider;
-    public GameObject levelCompleteCanvas;
-    public GameObject startLevelCanvas;
-
-    // Game Variables
     public GameObject balloonsParent;
     public Transform playerStartPosition;
     public int totalLives = 3;
@@ -31,12 +16,12 @@ public class GameManager : MonoBehaviour
     private int score = 0;
     private int lives;
     private float remainingTime;
-    private bool isPaused = false;
+    private bool sessionEnded = false;
 
     private int totalBalloons = 0;
     private int balloonsPopped = 0;
 
-    public string[] levels;
+    public string[] levels = { "Level1", "Level2", "Level3", "Level4" };
     private int currentLevelIndex = 0;
 
     private bool isPaused = false;
@@ -45,7 +30,7 @@ public class GameManager : MonoBehaviour
     private FollowMouse followMouseScript;
 
     public GameObject endMenuCanvas;
-    public GameObject pauseMenuCanvas;
+    public GameObject pauseScreenCanvas;
     public GameObject levelCompleteCanvas;
     public GameObject startLevelCanvas;
 
@@ -58,9 +43,10 @@ public class GameManager : MonoBehaviour
     {
         if (GameData.CurrentLevel == 0)
         {
-            GameData.Reset(); // Initialize data for a new game
+            GameData.Reset();
         }
 
+        currentLevelIndex = GameData.CurrentLevel;
         score = GameData.Score;
         lives = GameData.Lives > 0 ? GameData.Lives : totalLives;
         remainingTime = GameData.RemainingTime > 0 ? GameData.RemainingTime : sessionDuration;
@@ -94,57 +80,23 @@ public class GameManager : MonoBehaviour
             followMouseScript = player.GetComponent<FollowMouse>();
         }
 
-        if (balloonsParent != null && totalBalloons == 0)
-        {
-            totalBalloons = balloonsParent.transform.childCount; // Set balloon count only if it's not set already
-        }
-        else
-        {
-            Debug.LogWarning("BalloonsParent not assigned in GameManager!");
-        }
-
-        ResetPlayerPosition();
         UpdateUI();
-
-        Time.timeScale = 1f;
-
-        SceneManager.sceneLoaded += OnSceneLoaded;
-
-        if (timerSlider != null)
-        {
-            timerSlider.maxValue = sessionDuration;
-            timerSlider.value = remainingTime;
-        }
     }
-
 
     void Update()
     {
-        if (remainingTime > 0)
+        if (remainingTime > 0 && !sessionEnded)
         {
             remainingTime -= Time.deltaTime;
 
-            if (timerText != null)
+            if (uiManager != null)
             {
-                int minutes = Mathf.FloorToInt(remainingTime / 60);
-                int seconds = Mathf.FloorToInt(remainingTime % 60);
-
-                timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
-            }
-
-            if (timerSlider != null)
-            {
-                timerSlider.value = remainingTime;
+                uiManager.UpdateTimer(remainingTime, sessionDuration);
             }
         }
-        else
+        else if (!sessionEnded)
         {
             EndSession();
-        }
-
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            TogglePause();
         }
     }
 
@@ -161,7 +113,7 @@ public class GameManager : MonoBehaviour
         else
         {
             totalBalloons = balloonsParent.transform.childCount;
-            balloonsPopped = 0; // Reset popped balloons count
+            balloonsPopped = 0;
         }
 
         uiManager = UIManager.Instance;
@@ -170,97 +122,24 @@ public class GameManager : MonoBehaviour
             uiManager.Initialize();
             UpdateUI();
         }
-        else
-        {
-            Debug.LogWarning("Start Level Canvas is not assigned!");
-        }
-    }
-
-    public void TogglePause()
-    {
-        isPaused = !isPaused;
-
-        pauseMenu.SetActive(isPaused);
-        if (isPaused)
-        {
-            PauseGame();
-        }
-        else
-        {
-            ResumeGame();
-        }
-    }
-
-    void PauseGame()
-    {
-        // Pause the game: disable movement, etc., but keep UI responsive.
-        Time.timeScale = 0f;
-        player.GetComponent<FollowMouse>().enabled = false; // Disable player movement
-    }
-
-    void ResumeGame()
-    {
-        // Resume the game: re-enable player movement and resume normal time scale
-        Time.timeScale = 1f;
-        player.GetComponent<FollowMouse>().enabled = true; // Enable player movement
-    }
-
-    public void PlayerHitObstacle()
-    {
-        lives--;
-
-        if (lives > 0)
-        {
-            Debug.Log($"Player hit an obstacle! Lives remaining: {lives}");
-            ResetPlayerPosition();
-        }
-        else
-        {
-            Debug.Log("Game Over! Lives exhausted.");
-            EndSession();
-        }
-
-        UpdateUI();
     }
 
     public void BalloonPopped()
     {
         balloonsPopped++;
         score++;
-        GameData.Score = score; // Synchronize with GameData
+        GameData.Score = score;
         UpdateUI();
 
         if (balloonsPopped == totalBalloons)
         {
-            Debug.Log("All balloons popped! Loading next level...");
             ShowLevelCompleteCanvas();
-        }
-    }
-
-
-    void ShowLevelCompleteCanvas()
-    {
-        levelCompleteCanvas.SetActive(true);
-        isPaused = !isPaused;
-        Time.timeScale = isPaused ? 0f : 1f;
-
-    }
-
-    void ResetPlayerPosition()
-    {
-        if (player != null && playerStartPosition != null)
-        {
-            player.transform.position = playerStartPosition.position;
-        }
-        else
-        {
-            Debug.LogWarning("Player or PlayerStartPosition not set in GameManager!");
+            LoadNextLevel();
         }
     }
 
     public void LoadNextLevel()
     {
-        // Save current state
         GameData.Score = score;
         GameData.Lives = lives;
         GameData.RemainingTime = remainingTime;
@@ -281,24 +160,16 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void StartLevel()
-    {
-        startLevelCanvas.SetActive(false);
-        Time.timeScale = 1f;
-    }
-
     void EndSession()
     {
-        Debug.Log("Session ended.");
-
-        // Save game data
-        GameData.Score = score;
+        sessionEnded = true;
+        GameData.FinalScore = GameData.Score;
         GameData.Lives = 0;
         GameData.RemainingTime = 0;
 
         if (uiManager != null)
         {
-            finalScoreText.text = "Here is your final score: " + score;
+            uiManager.DisplayFinalScore(GameData.FinalScore);
         }
 
         SaveSessionData();
@@ -308,9 +179,7 @@ public class GameManager : MonoBehaviour
 
     public void SaveSessionData()
     {
-        string feedback = feedbackInputField?.text ?? "No feedback provided";
-
-        SessionData data = new SessionData
+        try
         {
             string filePath = Path.Combine(Application.persistentDataPath, "SessionData.json");
             File.WriteAllText(filePath, JsonUtility.ToJson(new SessionData
@@ -318,7 +187,8 @@ public class GameManager : MonoBehaviour
                 PlayerID = Guid.NewGuid().ToString(),
                 StartTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
                 Duration = (sessionDuration - remainingTime).ToString("F2") + " seconds",
-                Score = score
+                Score = score,
+                FinalScore = GameData.FinalScore
             }, true));
         }
         catch (Exception ex)
@@ -327,7 +197,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void RestartGame()
+    public void UpdateUI()
     {
         if (uiManager == null)
         {
@@ -336,7 +206,7 @@ public class GameManager : MonoBehaviour
         }
 
         uiManager.UpdateScore(GameData.Score);
-        uiManager.UpdateLives(GameData.Lives); // Ensure UI reflects the updated lives
+        uiManager.UpdateLives(GameData.Lives);
         uiManager.UpdateTimer(GameData.RemainingTime, sessionDuration);
         uiManager.UpdateLevelNumber(GameData.CurrentLevel + 1);
     }
@@ -354,16 +224,19 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void QuitGame()
+    public void PlayerHitObstacle()
     {
-        lives--; // Decrement lives
-        GameData.Lives = lives; // Synchronize with GameData
+        lives--;
+        GameData.Lives = lives;
 
-    void UpdateUI()
-    {
-        if (scoreText != null)
+        if (lives > 0)
         {
-            scoreText.text = "Score: " + score;
+            ResetPlayerPosition();
+            StartCoroutine(ShowStartLevelCanvasWithDelay());
+        }
+        else
+        {
+            EndSession();
         }
 
         UpdateUI();
@@ -380,7 +253,7 @@ public class GameManager : MonoBehaviour
         if (startLevelCanvas != null)
         {
             startLevelCanvas.SetActive(true);
-            Time.timeScale = 0f; // Pause temporarily
+            Time.timeScale = 0f;
         }
     }
 
@@ -391,10 +264,10 @@ public class GameManager : MonoBehaviour
             startLevelCanvas.SetActive(false);
         }
 
-        Time.timeScale = 1f; // Resume gameplay
+        Time.timeScale = 1f;
         if (followMouseScript != null)
         {
-            followMouseScript.enabled = true; // Re-enable player movement
+            followMouseScript.enabled = true;
         }
     }
 
@@ -406,6 +279,47 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void TogglePause()
+    {
+        isPaused = !isPaused;
+
+        if (isPaused)
+        {
+            Time.timeScale = 0f;
+            if (pauseScreenCanvas != null)
+            {
+                pauseScreenCanvas.SetActive(true);
+            }
+        }
+        else
+        {
+            Time.timeScale = 1f;
+            if (pauseScreenCanvas != null)
+            {
+                pauseScreenCanvas.SetActive(false);
+            }
+        }
+    }
+
+    public void ResumeGame()
+    {
+        if (isPaused)
+        {
+            isPaused = false;
+            Time.timeScale = 1f;
+            if (pauseScreenCanvas != null)
+            {
+                pauseScreenCanvas.SetActive(false);
+            }
+        }
+    }
+
+    public void QuitGame()
+    {
+        Debug.Log("Quitting the game...");
+        Application.Quit();
+    }
+
     [Serializable]
     public class SessionData
     {
@@ -413,5 +327,6 @@ public class GameManager : MonoBehaviour
         public string StartTime;
         public string Duration;
         public int Score;
+        public int FinalScore;
     }
 }
