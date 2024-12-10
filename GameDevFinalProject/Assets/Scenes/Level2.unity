@@ -3750,7 +3750,7 @@ GameObject:
   m_Component:
   - component: {fileID: 773690711}
   m_Layer: 7
-  m_Name: Balloons
+  m_Name: BalloonsParent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3890,6 +3890,26 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &812760251
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 812760250}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a1e0625a6f66a746b930e80afb93725, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiPrefab: {fileID: 0}
+  scoreText: {fileID: 1962571615}
+  livesText: {fileID: 397005373}
+  timerSlider: {fileID: 133355711}
+  timerText: {fileID: 561664390}
+  levelText: {fileID: 646542363}
+  finalScoreText: {fileID: 0}
+  feedbackInputField: {fileID: 0}
 --- !u!114 &812760252
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6683,6 +6703,11 @@ MonoBehaviour:
   - Level2
   - Level3
   - Level4
+  player: {fileID: 965297558}
+  endMenuCanvas: {fileID: 76459002}
+  pauseMenuCanvas: {fileID: 196453515}
+  levelCompleteCanvas: {fileID: 504493704}
+  startLevelCanvas: {fileID: 1100667879}
 --- !u!1 &1446613185
 GameObject:
   m_ObjectHideFlags: 0

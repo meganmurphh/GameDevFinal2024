@@ -3,13 +3,27 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
+    public static UIManager Instance { get; private set; }
+
     public Text scoreText;
     public Text livesText;
     public Slider timerSlider;
     public Text timerText;
     public Text levelText;
     public Text finalScoreText;
-    public InputField feedbackInputField;
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     public void Initialize()
     {
@@ -25,8 +39,11 @@ public class UIManager : MonoBehaviour
             levelText = GameObject.Find("LevelText")?.GetComponent<Text>();
         if (finalScoreText == null)
             finalScoreText = GameObject.Find("FinalScoreText")?.GetComponent<Text>();
-        if (feedbackInputField == null)
-            feedbackInputField = GameObject.Find("FeedbackInputField")?.GetComponent<InputField>();
+
+        UpdateScore(GameData.Score);
+        UpdateLives(GameData.Lives);
+        UpdateTimer(GameData.RemainingTime, 240f);
+        UpdateLevelNumber(GameData.CurrentLevel + 1);
     }
 
     public void UpdateScore(int score)
@@ -74,14 +91,10 @@ public class UIManager : MonoBehaviour
         {
             finalScoreText.text = "Final Score: " + finalScore;
         }
+        else
+        {
+            Debug.LogError("FinalScoreText is not assigned in the scene.");
+        }
     }
 
-    public string GetFeedback()
-    {
-        if (feedbackInputField != null)
-        {
-            return feedbackInputField.text;
-        }
-        return "No feedback provided";
-    }
 }
