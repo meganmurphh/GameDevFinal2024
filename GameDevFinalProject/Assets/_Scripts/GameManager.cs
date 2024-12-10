@@ -1,6 +1,5 @@
 using System;
 using System.IO;
-using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -9,7 +8,7 @@ public class GameManager : MonoBehaviour
     private UIManager uiManager;
 
     public GameObject balloonsParent;
-    public Transform playerStartPosition;
+    public Transform playerStartPosition; // Player start position reference
     public int totalLives = 3;
     public float sessionDuration = 240f;
 
@@ -19,7 +18,6 @@ public class GameManager : MonoBehaviour
     private int balloonsPopped = 0;
     private float remainingTime;
     private bool sessionEnded = false;
-    private bool isPaused = false; // Pause state
 
     private DateTime sessionStartTime;
     private string playerID = "Player_" + Guid.NewGuid();
@@ -88,56 +86,6 @@ public class GameManager : MonoBehaviour
         {
             EndSession();
         }
-
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            TogglePause();
-        }
-    }
-
-    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        Debug.Log("Scene Loaded: " + scene.name);
-        uiManager = UIManager.Instance;
-
-        if (uiManager == null)
-        {
-            Debug.LogError("UIManager is null in OnSceneLoaded!");
-            return;
-        }
-
-        uiManager.Initialize();
-        uiManager.UpdateLevelNumber(currentLevelIndex + 1);
-        UpdateUI();
-    }
-
-
-
-    void OnDestroy()
-    {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
-    }
-
-    void ShowStartLevelCanvas()
-    {
-        if (startLevelCanvas != null)
-        {
-            startLevelCanvas.SetActive(true);
-            Time.timeScale = 0f;
-        }
-    }
-
-    public void StartLevel()
-    {
-        startLevelCanvas.SetActive(false);
-        Time.timeScale = 1f;
-    }
-
-    public void TogglePause()
-    {
-        isPaused = !isPaused;
-        Time.timeScale = isPaused ? 0f : 1f;
-        Debug.Log(isPaused ? "Game Paused" : "Game Resumed");
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -248,7 +196,6 @@ public class GameManager : MonoBehaviour
         if (lives > 0)
         {
             ResetPlayerPosition();
-            StartCoroutine(ShowStartLevelCanvasWithDelay());
         }
         else
         {
@@ -258,14 +205,7 @@ public class GameManager : MonoBehaviour
         UpdateUI();
     }
 
-    private IEnumerator ShowStartLevelCanvasWithDelay()
-    {
-        yield return new WaitForSeconds(1.5f);
-
-        ShowStartLevelCanvas();
-    }
-
-    public void BalloonPopped()
+    public void ResetPlayerPosition()
     {
         GameObject player = GameObject.FindGameObjectWithTag("Bird");
 
