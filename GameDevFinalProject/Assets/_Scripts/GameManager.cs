@@ -71,7 +71,6 @@ public class GameManager : MonoBehaviour
         string currentSceneName = SceneManager.GetActiveScene().name;
         currentLevelIndex = Array.IndexOf(levels, currentSceneName);
 
-
         if (currentLevelIndex == -1)
         {
             Debug.LogError($"Current scene '{currentSceneName}' is not in the levels array!");
@@ -90,7 +89,14 @@ public class GameManager : MonoBehaviour
         ResetPlayerPosition();
         UpdateUI();
 
-        Time.timeScale = 1f;
+        if (currentLevelIndex > 0)
+        {
+            ShowStartLevelCanvas();
+        }
+        else
+        {
+            Time.timeScale = 1f;
+        }
 
         SceneManager.sceneLoaded += OnSceneLoaded;
 
@@ -100,6 +106,7 @@ public class GameManager : MonoBehaviour
             timerSlider.value = remainingTime;
         }
     }
+
 
     void Update()
     {
@@ -154,6 +161,7 @@ public class GameManager : MonoBehaviour
         if (startLevelCanvas != null)
         {
             startLevelCanvas.SetActive(true);
+            Time.timeScale = 0f;
         }
         else
         {
