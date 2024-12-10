@@ -5935,7 +5935,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1549349402
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9053,6 +9053,10 @@ PrefabInstance:
     - target: {fileID: 4648240762863737848, guid: bae120455a99d3a408e8c2f73737436d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8044860062019500500, guid: bae120455a99d3a408e8c2f73737436d, type: 3}
+      propertyPath: followSpeed
+      value: 15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
