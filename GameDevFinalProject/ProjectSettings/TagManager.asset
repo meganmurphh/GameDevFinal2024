@@ -8,6 +8,8 @@ TagManager:
   - Balloon
   - RedZone
   - Bomb
+  - FxTemporaire
+  - ElimZone
   layers:
   - Default
   - TransparentFX
