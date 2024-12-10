@@ -2916,6 +2916,7 @@ GameObject:
   - component: {fileID: 751525480}
   - component: {fileID: 751525479}
   - component: {fileID: 751525478}
+  - component: {fileID: 751525482}
   m_Layer: 5
   m_Name: GUI (1)
   m_TagString: Untagged
@@ -3010,6 +3011,25 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &751525482
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 751525477}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a1e0625a6f66a746b930e80afb93725, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scoreText: {fileID: 1806526470}
+  livesText: {fileID: 166285319}
+  timerSlider: {fileID: 1402545695}
+  timerText: {fileID: 1782505480}
+  levelText: {fileID: 1827606079}
+  finalScoreText: {fileID: 645749470}
+  feedbackInputField: {fileID: 183629587}
 --- !u!1 &757625525
 GameObject:
   m_ObjectHideFlags: 0
@@ -5648,17 +5668,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ae7972a3cd297a4782bf1a0a03c3258, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scoreText: {fileID: 1806526470}
-  timerText: {fileID: 1782505480}
-  livesText: {fileID: 166285319}
-  levelText: {fileID: 1827606079}
-  finalScoreText: {fileID: 645749470}
-  feedbackInputField: {fileID: 183629587}
-  endMenu: {fileID: 1549349401}
-  pauseMenu: {fileID: 1139850570}
-  timerSlider: {fileID: 1402545695}
-  levelCompleteCanvas: {fileID: 1684389040}
-  startLevelCanvas: {fileID: 235748775}
   balloonsParent: {fileID: 1221193401}
   player: {fileID: 2069991681}
   playerStartPosition: {fileID: 2089288444}
@@ -5669,6 +5678,8 @@ MonoBehaviour:
   - Level2
   - Level3
   - Level4
+  levelCompleteCanvas: {fileID: 1684389040}
+  startLevelCanvas: {fileID: 235748775}
 --- !u!1 &1515879234
 GameObject:
   m_ObjectHideFlags: 0

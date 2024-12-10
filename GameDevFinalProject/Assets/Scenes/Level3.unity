@@ -1934,6 +1934,7 @@ GameObject:
   - component: {fileID: 280713174}
   - component: {fileID: 280713173}
   - component: {fileID: 280713172}
+  - component: {fileID: 280713176}
   m_Layer: 5
   m_Name: GUI (1)
   m_TagString: Untagged
@@ -2028,6 +2029,25 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &280713176
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 280713171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a1e0625a6f66a746b930e80afb93725, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scoreText: {fileID: 337957872}
+  livesText: {fileID: 728152259}
+  timerSlider: {fileID: 1705703697}
+  timerText: {fileID: 120859633}
+  levelText: {fileID: 427655340}
+  finalScoreText: {fileID: 629343283}
+  feedbackInputField: {fileID: 275744962}
 --- !u!1 &337957870
 GameObject:
   m_ObjectHideFlags: 0
@@ -6248,25 +6268,6 @@ MonoBehaviour:
   - Level4
   levelCompleteCanvas: {fileID: 1473464038}
   startLevelCanvas: {fileID: 1937417623}
---- !u!114 &1568803528
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1568803523}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a1e0625a6f66a746b930e80afb93725, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  scoreText: {fileID: 337957872}
-  livesText: {fileID: 728152259}
-  timerSlider: {fileID: 1705703697}
-  timerText: {fileID: 120859633}
-  levelText: {fileID: 427655340}
-  finalScoreText: {fileID: 629343283}
-  feedbackInputField: {fileID: 275744962}
 --- !u!1 &1584073590
 GameObject:
   m_ObjectHideFlags: 0
