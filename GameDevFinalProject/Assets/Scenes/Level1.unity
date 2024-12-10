@@ -4364,7 +4364,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ae7972a3cd297a4782bf1a0a03c3258, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scoreText: {fileID: 796335224}
+  timerText: {fileID: 1980468314}
+  livesText: {fileID: 392778630}
+  levelText: {fileID: 153548002}
+  finalScoreText: {fileID: 396982926}
+  feedbackInputField: {fileID: 62961412}
+  endMenu: {fileID: 1090964511}
+  pauseMenu: {fileID: 2111265095}
+  timerSlider: {fileID: 817817068}
+  levelCompleteCanvas: {fileID: 578689603}
+  startLevelCanvas: {fileID: 1430033209}
   balloonsParent: {fileID: 1548001221}
+  player: {fileID: 1647701265}
   playerStartPosition: {fileID: 376635571}
   totalLives: 3
   sessionDuration: 240
@@ -4373,11 +4385,6 @@ MonoBehaviour:
   - Level2
   - Level3
   - Level4
-  player: {fileID: 1647701265}
-  endMenuCanvas: {fileID: 1090964511}
-  pauseMenuCanvas: {fileID: 2111265095}
-  levelCompleteCanvas: {fileID: 578689603}
-  startLevelCanvas: {fileID: 1430033209}
 --- !u!1 &1000315005
 GameObject:
   m_ObjectHideFlags: 0
@@ -7714,7 +7721,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3173748369129310743, guid: 3f8a6251b34f48241acb8fd738eb8ae5, type: 3}
       propertyPath: followSpeed
-      value: 35
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 3173748369129310743, guid: 3f8a6251b34f48241acb8fd738eb8ae5, type: 3}
       propertyPath: startPosition

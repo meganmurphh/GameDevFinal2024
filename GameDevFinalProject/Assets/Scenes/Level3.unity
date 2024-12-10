@@ -3869,7 +3869,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Continue to level 3
+  m_Text: Continue to level 4
 --- !u!222 &863783867
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6450,7 +6450,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ae7972a3cd297a4782bf1a0a03c3258, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scoreText: {fileID: 337957872}
+  timerText: {fileID: 120859633}
+  livesText: {fileID: 728152259}
+  levelText: {fileID: 427655340}
+  finalScoreText: {fileID: 629343283}
+  feedbackInputField: {fileID: 275744962}
+  endMenu: {fileID: 1331994922}
+  pauseMenu: {fileID: 235208289}
+  timerSlider: {fileID: 1705703697}
+  levelCompleteCanvas: {fileID: 1473464038}
+  startLevelCanvas: {fileID: 1937417623}
   balloonsParent: {fileID: 765874644}
+  player: {fileID: 205503801}
   playerStartPosition: {fileID: 590578259}
   totalLives: 3
   sessionDuration: 240
@@ -6459,11 +6471,6 @@ MonoBehaviour:
   - Level2
   - Level3
   - Level4
-  player: {fileID: 205503801}
-  endMenuCanvas: {fileID: 1331994922}
-  pauseMenuCanvas: {fileID: 235208289}
-  levelCompleteCanvas: {fileID: 1473464038}
-  startLevelCanvas: {fileID: 1937417623}
 --- !u!1 &1584073590
 GameObject:
   m_ObjectHideFlags: 0
@@ -8639,7 +8646,7 @@ PrefabInstance:
       objectReference: {fileID: 4021103657954561961, guid: 5c755f9bc5253ea418e919994537dcc7, type: 3}
     - target: {fileID: 8181943182120700643, guid: 78d0b416b42c5d24c9686bac0dcb6cbc, type: 3}
       propertyPath: followSpeed
-      value: 25
+      value: 21
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

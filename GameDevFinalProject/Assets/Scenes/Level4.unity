@@ -5733,7 +5733,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ae7972a3cd297a4782bf1a0a03c3258, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scoreText: {fileID: 1806526470}
+  timerText: {fileID: 1782505480}
+  livesText: {fileID: 166285319}
+  levelText: {fileID: 1827606079}
+  finalScoreText: {fileID: 645749470}
+  feedbackInputField: {fileID: 183629587}
+  endMenu: {fileID: 1549349401}
+  pauseMenu: {fileID: 1139850570}
+  timerSlider: {fileID: 1402545695}
+  levelCompleteCanvas: {fileID: 1684389040}
+  startLevelCanvas: {fileID: 235748775}
   balloonsParent: {fileID: 1221193401}
+  player: {fileID: 3415045844994085820}
   playerStartPosition: {fileID: 2089288444}
   totalLives: 3
   sessionDuration: 240
@@ -5742,11 +5754,6 @@ MonoBehaviour:
   - Level2
   - Level3
   - Level4
-  player: {fileID: 3415045844994085820}
-  endMenuCanvas: {fileID: 1549349401}
-  pauseMenuCanvas: {fileID: 1139850570}
-  levelCompleteCanvas: {fileID: 1684389040}
-  startLevelCanvas: {fileID: 235748775}
 --- !u!1 &1515879234
 GameObject:
   m_ObjectHideFlags: 0
@@ -8971,6 +8978,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 461924815184223237, guid: bae120455a99d3a408e8c2f73737436d, type: 3}
+      propertyPath: balloonPopAnimation
+      value: 
+      objectReference: {fileID: 4021103657954561961, guid: 5c755f9bc5253ea418e919994537dcc7, type: 3}
     - target: {fileID: 533851085238938991, guid: bae120455a99d3a408e8c2f73737436d, type: 3}
       propertyPath: m_Name
       value: YellowBird
@@ -8987,6 +8998,14 @@ PrefabInstance:
       propertyPath: m_Offset.y
       value: -0.09
       objectReference: {fileID: 0}
+    - target: {fileID: 4003822872206650992, guid: bae120455a99d3a408e8c2f73737436d, type: 3}
+      propertyPath: elimZoneAnimation
+      value: 
+      objectReference: {fileID: 1141330259687333427, guid: 6718dc24203da53468af9ada8fef7d6d, type: 3}
+    - target: {fileID: 4003822872206650992, guid: bae120455a99d3a408e8c2f73737436d, type: 3}
+      propertyPath: explosionAnimation
+      value: 
+      objectReference: {fileID: 2433282508537954060, guid: 3ef3ae421f71c5c4e97fe12dc2fc6312, type: 3}
     - target: {fileID: 4311317670459790703, guid: bae120455a99d3a408e8c2f73737436d, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.17

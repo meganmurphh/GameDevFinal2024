@@ -1,15 +1,32 @@
 using System;
 using System.IO;
-using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    private UIManager uiManager;
+    // Singleton instance
+    private static GameManager instance;
 
+    // UI References
+    public Text scoreText;
+    public Text timerText;
+    public Text livesText;
+    public Text levelText;
+    public Text finalScoreText;
+    public InputField feedbackInputField;
+    public GameObject endMenu;
+    public GameObject pauseMenu;
+    public Slider timerSlider;
+    public GameObject levelCompleteCanvas;
+    public GameObject startLevelCanvas;
+
+    // Game Variables
     public GameObject balloonsParent;
-    public Transform playerStartPosition; // Player start position reference
+    public GameObject player;
+    public Transform playerStartPosition;
+
     public int totalLives = 3;
     public float sessionDuration = 240f;
 
@@ -18,7 +35,7 @@ public class GameManager : MonoBehaviour
     private int totalBalloons = 0;
     private int balloonsPopped = 0;
     private float remainingTime;
-    private bool sessionEnded = false;
+    private bool isPaused = false;
 
     private DateTime sessionStartTime;
     private string playerID = "Player_" + Guid.NewGuid();
@@ -26,26 +43,17 @@ public class GameManager : MonoBehaviour
     public string[] levels;
     private int currentLevelIndex = 0;
 
-    private bool isPaused = false;
-
-    public GameObject player;
-    private FollowMouse followMouseScript;
-
-    //Canvases
-    public GameObject endMenuCanvas;
-    public GameObject pauseMenuCanvas;
-    public GameObject levelCompleteCanvas;
-    public GameObject startLevelCanvas;
-
     void Awake()
     {
-        if (FindObjectsOfType<GameManager>().Length > 1)
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
         {
             Destroy(gameObject);
-            return;
         }
-
-        DontDestroyOnLoad(gameObject);
     }
 
     void Start()
@@ -54,104 +62,216 @@ public class GameManager : MonoBehaviour
         remainingTime = sessionDuration;
         sessionStartTime = DateTime.Now;
 
-        if (playerStartPosition == null)
+        if (levels == null || levels.Length == 0)
         {
-            Debug.LogError("PlayerStartPosition is not assigned in GameManager!");
+            Debug.LogError("Levels array is not initialized! Please assign scene names in the Inspector.");
             return;
         }
 
-        if (balloonsParent == null)
-        {
-            balloonsParent = GameObject.Find("BalloonsParent");
-            if (balloonsParent == null)
-            {
-                Debug.LogError("BalloonsParent not found in the scene!");
-                return;
-            }
-        }
+        string currentSceneName = SceneManager.GetActiveScene().name;
+        currentLevelIndex = Array.IndexOf(levels, currentSceneName);
 
-        followMouseScript = player.GetComponent<FollowMouse>();
-        if (followMouseScript != null && currentLevelIndex != 0)
+        if (currentLevelIndex == -1)
         {
-            followMouseScript.enabled = false; // Disable player movement initially
-        }
-
-        totalBalloons = balloonsParent.transform.childCount;
-        Debug.Log($"Total balloons in this level: {totalBalloons}");
-
-        uiManager = FindObjectOfType<UIManager>();
-        if (uiManager == null)
-        {
-            Debug.LogError("UIManager not found! Ensure the UIManager is in the scene.");
+            Debug.LogError($"Current scene '{currentSceneName}' is not in the levels array!");
             return;
         }
 
+        if (balloonsParent != null && totalBalloons == 0)
+        {
+            totalBalloons = balloonsParent.transform.childCount; // Set balloon count only if it's not set already
+        }
+        else
+        {
+            Debug.LogWarning("BalloonsParent not assigned in GameManager!");
+        }
+
+        ResetPlayerPosition();
         UpdateUI();
+
+        Time.timeScale = 1f;
+
+        SceneManager.sceneLoaded += OnSceneLoaded;
+
+        if (timerSlider != null)
+        {
+            timerSlider.maxValue = sessionDuration;
+            timerSlider.value = remainingTime;
+        }
     }
+
 
     void Update()
     {
-        if (remainingTime > 0 && !sessionEnded)
+        if (remainingTime > 0)
         {
             remainingTime -= Time.deltaTime;
 
-            if (uiManager != null)
+            if (timerText != null)
             {
-                uiManager.UpdateTimer(remainingTime, sessionDuration);
+                int minutes = Mathf.FloorToInt(remainingTime / 60);
+                int seconds = Mathf.FloorToInt(remainingTime % 60);
+
+                timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+            }
+
+            if (timerSlider != null)
+            {
+                timerSlider.value = remainingTime;
             }
         }
-        else if (!sessionEnded)
+        else
         {
             EndSession();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            TogglePause();
         }
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        Debug.Log($"Scene loaded: {scene.name}");
+        // Prevent resetting Time.timeScale on scene load
+        Time.timeScale = 1f;
 
-        balloonsParent = GameObject.Find("BalloonsParent");
-        if (balloonsParent != null)
+        // Re-assign UI elements after scene load
+        ReassignUIElements();
+
+        // Retain current score, lives, etc., and update UI
+        UpdateUI();
+    }
+
+
+    void ReassignUIElements()
+    {
+        scoreText = GameObject.Find("ScoreText")?.GetComponent<Text>();
+        timerText = GameObject.Find("Timer")?.GetComponent<Text>();
+        livesText = GameObject.Find("Lives")?.GetComponent<Text>();
+        levelText = GameObject.Find("Level")?.GetComponent<Text>();
+
+        if (scoreText != null)
         {
-            totalBalloons = balloonsParent.transform.childCount;
-            balloonsPopped = 0;
-            Debug.Log($"Total balloons in this level: {totalBalloons}");
+            Debug.Log("ScoreText found!");
         }
         else
         {
-            Debug.LogError("BalloonsParent not found in the new scene!");
+            Debug.Log("ScoreText missing!");
         }
 
-        uiManager = FindObjectOfType<UIManager>();
-        if (uiManager != null)
+        // Update UI based on current game state
+        UpdateUI();
+    }
+
+
+    void ShowStartLevelCanvas()
+    {
+        if (startLevelCanvas != null)
         {
-            UpdateUI();
+            startLevelCanvas.SetActive(true);
         }
+        else
+        {
+            Debug.LogWarning("Start Level Canvas is not assigned!");
+        }
+    }
+
+    public void TogglePause()
+    {
+        isPaused = !isPaused;
+
+        pauseMenu.SetActive(isPaused);
+        if (isPaused)
+        {
+            PauseGame();
+        }
+        else
+        {
+            ResumeGame();
+        }
+    }
+
+    void PauseGame()
+    {
+        // Pause the game: disable movement, etc., but keep UI responsive.
+        Time.timeScale = 0f;
+        player.GetComponent<FollowMouse>().enabled = false; // Disable player movement
+    }
+
+    void ResumeGame()
+    {
+        // Resume the game: re-enable player movement and resume normal time scale
+        Time.timeScale = 1f;
+        player.GetComponent<FollowMouse>().enabled = true; // Enable player movement
+    }
+
+    public void PlayerHitObstacle()
+    {
+        lives--;
+
+        if (lives > 0)
+        {
+            Debug.Log($"Player hit an obstacle! Lives remaining: {lives}");
+            ResetPlayerPosition();
+        }
+        else
+        {
+            Debug.Log("Game Over! Lives exhausted.");
+            EndSession();
+        }
+
+        UpdateUI();
     }
 
     public void BalloonPopped()
     {
         balloonsPopped++;
-        score++;
 
+        Debug.Log($"Balloon popped! {balloonsPopped}/{totalBalloons}");
+
+        score++;
         UpdateUI();
 
         if (balloonsPopped == totalBalloons)
         {
+            Debug.Log("All balloons popped! Loading next level...");
             ShowLevelCompleteCanvas();
-            LoadNextLevel();
+        }
+    }
+
+
+    void ShowLevelCompleteCanvas()
+    {
+        levelCompleteCanvas.SetActive(true);
+        isPaused = !isPaused;
+        Time.timeScale = isPaused ? 0f : 1f;
+
+    }
+
+    void ResetPlayerPosition()
+    {
+        if (player != null && playerStartPosition != null)
+        {
+            player.transform.position = playerStartPosition.position;
+        }
+        else
+        {
+            Debug.LogWarning("Player or PlayerStartPosition not set in GameManager!");
         }
     }
 
     public void LoadNextLevel()
     {
+
+        isPaused = !isPaused;
+
         currentLevelIndex++;
 
         if (currentLevelIndex < levels.Length)
         {
             string nextSceneName = levels[currentLevelIndex];
             Debug.Log($"Loading next level: {nextSceneName}");
-            SceneManager.sceneLoaded += OnSceneLoaded;
             SceneManager.LoadScene(nextSceneName);
         }
         else
@@ -161,122 +281,72 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void StartLevel()
+    {
+        startLevelCanvas.SetActive(false);
+        Time.timeScale = 1f;
+    }
+
     void EndSession()
     {
-        sessionEnded = true;
+        Debug.Log("Session ended.");
 
-        if (uiManager != null)
+        if (finalScoreText != null)
         {
-            uiManager.DisplayFinalScore(score);
+            finalScoreText.text = "Here is your final score: " + score;
         }
 
-        SaveSessionData();
-        endMenuCanvas.SetActive(true);
+        endMenu.SetActive(true);
         Time.timeScale = 0f;
     }
 
     public void SaveSessionData()
     {
-        try
+        string feedback = feedbackInputField?.text ?? "No feedback provided";
+
+        SessionData data = new SessionData
         {
-            string filePath = Path.Combine(Application.persistentDataPath, "SessionData.json");
-            File.WriteAllText(filePath, JsonUtility.ToJson(new SessionData
-            {
-                PlayerID = playerID,
-                StartTime = sessionStartTime.ToString("yyyy-MM-dd HH:mm:ss"),
-                Duration = (sessionDuration - remainingTime).ToString("F2") + " seconds",
-                Score = score,
-                Feedback = uiManager?.GetFeedback() ?? "No feedback"
-            }, true));
-        }
-        catch (Exception ex)
-        {
-            Debug.LogError($"Failed to save session data: {ex.Message}");
-        }
+            PlayerID = playerID,
+            StartTime = sessionStartTime.ToString("yyyy-MM-dd HH:mm:ss"),
+            Duration = (sessionDuration - remainingTime).ToString("F2") + " seconds",
+            Score = score,
+            Feedback = feedback
+        };
+
+        string filePath = Path.Combine(Application.persistentDataPath, "SessionData.json");
+        File.WriteAllText(filePath, JsonUtility.ToJson(data, true));
+        Debug.Log("Session data saved to: " + filePath);
     }
 
-    public void UpdateUI()
+    public void RestartGame()
     {
-        if (uiManager != null)
-        {
-            uiManager.UpdateScore(score);
-            uiManager.UpdateLives(lives);
-            uiManager.UpdateTimer(remainingTime, sessionDuration);
-            uiManager.UpdateLevelNumber(currentLevelIndex + 1);
-        }
-    }
-
-    public void TogglePause()
-    {
-        isPaused = !isPaused;
-        pauseMenuCanvas.SetActive(isPaused);
-        Time.timeScale = isPaused ? 0f : 1f;
-    }
-    public void ResumeGame()
-    {
-        isPaused = false;
-        pauseMenuCanvas.SetActive(false);
         Time.timeScale = 1f;
+        SceneManager.LoadScene(levels[0]);
     }
 
-    public void PlayerHitObstacle()
+    public void QuitGame()
     {
-        lives--;
+        Debug.Log("Quitting the game...");
+        Application.Quit();
+    }
 
-        if (lives > 0)
+    void UpdateUI()
+    {
+        if (scoreText != null)
         {
-            ResetPlayerPosition();
-            StartCoroutine(ShowStartLevelCanvasWithDelay());
+            scoreText.text = "Score: " + score;
         }
-        else
+
+        if (livesText != null)
         {
-            EndSession();
+            livesText.text = "Lives: " + lives;
         }
 
-        uiManager.UpdateLives(lives);
-    }
-
-    private IEnumerator ShowStartLevelCanvasWithDelay()
-    {
-        yield return new WaitForSeconds(1.5f);
-
-        ShowStartLevelCanvas();
-    }
-
-    public void StartLevel()
-    {
-        startLevelCanvas.SetActive(false);
-        Time.timeScale = 1f;
-
-        if (followMouseScript != null)
+        if (levelText != null)
         {
-            followMouseScript.enabled = true;
+            levelText.text = $"Level: {currentLevelIndex + 1}";
         }
     }
-
-    void ShowLevelCompleteCanvas()
-    {
-        levelCompleteCanvas.SetActive(true);
-        Time.timeScale = 0f;
-    }
-
-    void ShowStartLevelCanvas()
-    {
-        if (startLevelCanvas != null)
-        {
-            startLevelCanvas.SetActive(true);
-            Time.timeScale = 0f;
-        }
-    }
-
-    void ResetPlayerPosition()
-    {
-        if (player != null && playerStartPosition != null)
-        {
-            player.transform.position = playerStartPosition.position;
-        }
-    }
-
 }
 
 [Serializable]
