@@ -1621,14 +1621,6 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1141380225567202534, guid: f10a10bde734dc04f9ee8760afe7c586, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1.9465
-      objectReference: {fileID: 0}
-    - target: {fileID: 1141380225567202534, guid: f10a10bde734dc04f9ee8760afe7c586, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1.3897486
-      objectReference: {fileID: 0}
-    - target: {fileID: 1141380225567202534, guid: f10a10bde734dc04f9ee8760afe7c586, type: 3}
       propertyPath: m_LocalPosition.x
       value: -4.05
       objectReference: {fileID: 0}
@@ -1671,18 +1663,6 @@ PrefabInstance:
     - target: {fileID: 5952232375157023018, guid: f10a10bde734dc04f9ee8760afe7c586, type: 3}
       propertyPath: m_Name
       value: ElimZone
-      objectReference: {fileID: 0}
-    - target: {fileID: 5952232375157023018, guid: f10a10bde734dc04f9ee8760afe7c586, type: 3}
-      propertyPath: m_Layer
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5952232375157023018, guid: f10a10bde734dc04f9ee8760afe7c586, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5952232375157023018, guid: f10a10bde734dc04f9ee8760afe7c586, type: 3}
-      propertyPath: m_TagString
-      value: Bomb
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
