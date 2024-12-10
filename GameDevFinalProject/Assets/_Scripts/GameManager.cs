@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -193,6 +194,7 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log($"Player hit an obstacle! Lives remaining: {lives}");
             ResetPlayerPosition();
+            StartCoroutine(ShowStartLevelCanvasWithDelay());
         }
         else
         {
@@ -202,6 +204,14 @@ public class GameManager : MonoBehaviour
 
         UpdateUI();
     }
+
+    private IEnumerator ShowStartLevelCanvasWithDelay()
+    {
+        yield return new WaitForSeconds(1.5f);
+
+        ShowStartLevelCanvas();
+    }
+
 
     public void BalloonPopped()
     {
