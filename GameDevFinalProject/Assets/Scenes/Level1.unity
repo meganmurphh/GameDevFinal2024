@@ -4373,6 +4373,11 @@ MonoBehaviour:
   - Level2
   - Level3
   - Level4
+  endMenuCavas: {fileID: 1090964511}
+  pauseMenuCanvas: {fileID: 0}
+  levelCompleteCanvas: {fileID: 578689603}
+  startMenuCavas: {fileID: 652709474}
+  startAgainCanvas: {fileID: 1430033209}
 --- !u!1 &1000315005
 GameObject:
   m_ObjectHideFlags: 0
@@ -6948,9 +6953,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 963194225}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: StartLevel
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class StartScreenManager : MonoBehaviour
 {
@@ -14,22 +15,21 @@ public class StartScreenManager : MonoBehaviour
             followMouseScript = player.GetComponent<FollowMouse>();
             if (followMouseScript != null)
             {
-                followMouseScript.enabled = false; // Disable player movement
+                followMouseScript.enabled = false;
             }
         }
 
         startScreenCanvas.SetActive(true);
-        Time.timeScale = 0f; // Pause the game
+        Time.timeScale = 0f;
     }
-
     public void StartGame()
     {
         startScreenCanvas.SetActive(false);
-        Time.timeScale = 1f; // Resume the game
+        Time.timeScale = 1f;
 
         if (followMouseScript != null)
         {
-            followMouseScript.enabled = true; // Enable player movement
+            StartCoroutine(EnablePlayerMovementAfterDelay(0.5f));
         }
     }
 
@@ -39,9 +39,18 @@ public class StartScreenManager : MonoBehaviour
 
         if (followMouseScript != null)
         {
-            followMouseScript.enabled = false; // Ensure movement is disabled
+            followMouseScript.enabled = false; 
         }
 
         Time.timeScale = 0f;
+    }
+
+    private IEnumerator EnablePlayerMovementAfterDelay(float delay)
+    {
+        yield return new WaitForSecondsRealtime(delay);
+        if (followMouseScript != null)
+        {
+            followMouseScript.enabled = true; 
+        }
     }
 }

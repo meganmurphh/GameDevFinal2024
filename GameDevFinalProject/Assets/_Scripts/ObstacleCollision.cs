@@ -20,14 +20,13 @@ public class ObstacleCollision : MonoBehaviour
                 }
                 else
                 {
-                    Debug.LogWarning("Explosion animation prefab not assigned");
+                    Debug.LogWarning("bomb animation prefab not assigned");
                 }
 
-                // Deactivate the bird instead of destroying it
-                other.gameObject.SetActive(false);
+                gameObject.SetActive(false);
+                Destroy(other.gameObject);
 
-                // Reactivate bird after reset
-                StartCoroutine(ReactivateBirdAfterDelay(other.gameObject, 1.5f));
+                Invoke("ShowBirdAfterDelay", 1.5f);
             }
             else
             {
@@ -48,8 +47,12 @@ public class ObstacleCollision : MonoBehaviour
                 }
                 else
                 {
-                    Debug.LogWarning("Elim zone animation prefab not assigned");
+                    Debug.LogWarning("elim zone animation prefab not assigned");
                 }
+
+                gameObject.SetActive(false);
+
+                Invoke("ShowBirdAfterDelay", 1.5f);
             }
             else
             {
@@ -58,9 +61,8 @@ public class ObstacleCollision : MonoBehaviour
         }
     }
 
-    private System.Collections.IEnumerator ReactivateBirdAfterDelay(GameObject bird, float delay)
+    void ShowBirdAfterDelay()
     {
-        yield return new WaitForSeconds(delay);
-        bird.SetActive(true);
+        gameObject.SetActive(true);
     }
 }

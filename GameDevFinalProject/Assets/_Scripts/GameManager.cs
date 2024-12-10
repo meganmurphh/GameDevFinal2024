@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -24,6 +25,17 @@ public class GameManager : MonoBehaviour
 
     public string[] levels;
     private int currentLevelIndex = 0;
+
+    private bool isPaused = false;
+
+    public GameObject player;
+
+    //Canvases
+    public GameObject endMenuCavas;
+    public GameObject pauseMenuCanvas;
+    public GameObject levelCompleteCanvas;
+    public GameObject startGameCavas;
+    public GameObject startLevelCanvas;
 
     void Awake()
     {
@@ -189,6 +201,19 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void TogglePause()
+    {
+        isPaused = !isPaused;
+        pauseMenuCanvas.SetActive(isPaused);
+        Time.timeScale = isPaused ? 0f : 1f;
+    }
+    public void ResumeGame()
+    {
+        isPaused = false;
+        pauseMenuCanvas.SetActive(false);
+        Time.timeScale = 1f;
+    }
+
     public void PlayerHitObstacle()
     {
         lives--;
@@ -196,40 +221,52 @@ public class GameManager : MonoBehaviour
         if (lives > 0)
         {
             ResetPlayerPosition();
+            StartCoroutine(ShowStartLevelCanvasWithDelay());
         }
         else
         {
             EndSession();
         }
 
-        UpdateUI();
+        uiManager.UpdateLives(lives);
     }
 
-    public void ResetPlayerPosition()
+    private IEnumerator ShowStartLevelCanvasWithDelay()
     {
-        GameObject player = GameObject.FindGameObjectWithTag("Bird");
+        yield return new WaitForSeconds(1.5f);
 
+        ShowStartLevelCanvas();
+    }
+
+    public void StartLevel()
+    {
+        startLevelCanvas.SetActive(false);
+        Time.timeScale = 1f;
+    }
+
+    void ShowLevelCompleteCanvas()
+    {
+        levelCompleteCanvas.SetActive(true);
+        Time.timeScale = 0f;
+    }
+
+    void ShowStartLevelCanvas()
+    {
+        if (startLevelCanvas != null)
+        {
+            startLevelCanvas.SetActive(true);
+            Time.timeScale = 0f;
+        }
+    }
+
+    void ResetPlayerPosition()
+    {
         if (player != null && playerStartPosition != null)
         {
-            var followMouse = player.GetComponent<FollowMouse>();
-            if (followMouse != null)
-            {
-                followMouse.ResetPosition(playerStartPosition.position);
-            }
-            else
-            {
-                player.transform.position = playerStartPosition.position;
-            }
-        }
-        else if (player == null)
-        {
-            Debug.LogError("Player GameObject not found in the scene!");
-        }
-        else if (playerStartPosition == null)
-        {
-            Debug.LogError("PlayerStartPosition not assigned in GameManager!");
+            player.transform.position = playerStartPosition.position;
         }
     }
+
 }
 
 [Serializable]
