@@ -1,6 +1,5 @@
 using System;
 using System.IO;
-using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -154,7 +153,6 @@ public class GameManager : MonoBehaviour
         if (lives > 0)
         {
             ResetPlayerPosition();
-            StartCoroutine(ShowStartLevelCanvasWithDelay());
         }
         else
         {
@@ -163,14 +161,6 @@ public class GameManager : MonoBehaviour
 
         uiManager.UpdateLives(lives);
     }
-
-    private IEnumerator ShowStartLevelCanvasWithDelay()
-    {
-        yield return new WaitForSeconds(1.5f);
-
-        ShowStartLevelCanvas();
-    }
-
 
     public void BalloonPopped()
     {
@@ -217,12 +207,13 @@ public class GameManager : MonoBehaviour
 
     void EndSession()
     {
-
-        if (finalScoreText != null)
+        if (!sessionEnded)
         {
             sessionEnded = true;
 
+            uiManager.DisplayFinalScore(score);
             SaveSessionData();
+
             Time.timeScale = 0f;
         }
     }
@@ -238,6 +229,7 @@ public class GameManager : MonoBehaviour
                 StartTime = sessionStartTime.ToString("yyyy-MM-dd HH:mm:ss"),
                 Duration = (sessionDuration - remainingTime).ToString("F2") + " seconds",
                 Score = score,
+                Feedback = uiManager.GetFeedback()
             }, true));
         }
         catch (Exception ex)
@@ -261,4 +253,5 @@ public class SessionData
     public string StartTime;
     public string Duration;
     public int Score;
+    public string Feedback;
 }

@@ -10,6 +10,8 @@ public class UIManager : MonoBehaviour
     public Slider timerSlider;
     public Text timerText;
     public Text levelText;
+    public Text finalScoreText;
+    public InputField feedbackInputField;
 
     void Awake()
     {
@@ -61,5 +63,22 @@ public class UIManager : MonoBehaviour
         {
             levelText.text = "Level: " + levelNumber;
         }
+    }
+
+    public void DisplayFinalScore(int finalScore)
+    {
+        if (finalScoreText != null)
+        {
+            finalScoreText.text = "Final Score: " + finalScore;
+        }
+    }
+
+    public string GetFeedback()
+    {
+        if (feedbackInputField != null)
+        {
+            return feedbackInputField.text;
+        }
+        return "No feedback provided";
     }
 }
