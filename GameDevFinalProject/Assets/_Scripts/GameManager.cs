@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     public GameObject endMenu;
     public GameObject pauseMenu;
     public Slider timerSlider;
+    public GameObject levelCompleteCanvas;
 
     // Game Variables
     public GameObject balloonsParent;
@@ -191,8 +192,16 @@ public class GameManager : MonoBehaviour
         if (balloonsPopped == totalBalloons)
         {
             Debug.Log("All balloons popped! Loading next level...");
-            LoadNextLevel();
+            ShowLevelCompleteCanvas();
         }
+    }
+
+    void ShowLevelCompleteCanvas()
+    {
+        levelCompleteCanvas.SetActive(true);
+        isPaused = !isPaused;
+        Time.timeScale = isPaused ? 0f : 1f;
+
     }
 
     void ResetPlayerPosition()
@@ -207,7 +216,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void LoadNextLevel()
+    public void LoadNextLevel()
     {
         currentLevelIndex++;
 
