@@ -5742,6 +5742,11 @@ MonoBehaviour:
   - Level2
   - Level3
   - Level4
+  player: {fileID: 3415045844994085820}
+  endMenuCanvas: {fileID: 1549349401}
+  pauseMenuCanvas: {fileID: 1139850570}
+  levelCompleteCanvas: {fileID: 1684389040}
+  startLevelCanvas: {fileID: 235748775}
 --- !u!1 &1515879234
 GameObject:
   m_ObjectHideFlags: 0
@@ -9035,6 +9040,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bae120455a99d3a408e8c2f73737436d, type: 3}
+--- !u!1 &3415045844994085820 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 533851085238938991, guid: bae120455a99d3a408e8c2f73737436d, type: 3}
+  m_PrefabInstance: {fileID: 3415045844994085819}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

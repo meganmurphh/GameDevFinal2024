@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviour
     private bool isPaused = false;
 
     public GameObject player;
+    private FollowMouse followMouseScript;
 
     //Canvases
     public GameObject endMenuCanvas;
@@ -67,6 +68,12 @@ public class GameManager : MonoBehaviour
                 Debug.LogError("BalloonsParent not found in the scene!");
                 return;
             }
+        }
+
+        followMouseScript = player.GetComponent<FollowMouse>();
+        if (followMouseScript != null && currentLevelIndex != 0)
+        {
+            followMouseScript.enabled = false; // Disable player movement initially
         }
 
         totalBalloons = balloonsParent.transform.childCount;
@@ -132,7 +139,6 @@ public class GameManager : MonoBehaviour
         if (balloonsPopped == totalBalloons)
         {
             ShowLevelCompleteCanvas();
-
             LoadNextLevel();
         }
     }
@@ -241,6 +247,11 @@ public class GameManager : MonoBehaviour
     {
         startLevelCanvas.SetActive(false);
         Time.timeScale = 1f;
+
+        if (followMouseScript != null)
+        {
+            followMouseScript.enabled = true;
+        }
     }
 
     void ShowLevelCompleteCanvas()
