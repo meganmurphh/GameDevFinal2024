@@ -3997,7 +3997,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d4274a508f3c7540a1eb8f07021c9ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  balloonTag: Balloon
+  balloonPopAnimation: {fileID: 0}
 --- !u!114 &965297562
 MonoBehaviour:
   m_ObjectHideFlags: 0
