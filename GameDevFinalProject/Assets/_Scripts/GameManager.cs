@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
     public GameObject pauseMenu;
     public Slider timerSlider;
     public GameObject levelCompleteCanvas;
+    public GameObject startLevelCanvas;
 
     // Game Variables
     public GameObject balloonsParent;
@@ -69,6 +70,7 @@ public class GameManager : MonoBehaviour
 
         string currentSceneName = SceneManager.GetActiveScene().name;
         currentLevelIndex = Array.IndexOf(levels, currentSceneName);
+
 
         if (currentLevelIndex == -1)
         {
@@ -145,6 +147,18 @@ public class GameManager : MonoBehaviour
         levelText = GameObject.Find("Level")?.GetComponent<Text>();
 
         UpdateUI();
+    }
+
+    void ShowStartLevelCanvas()
+    {
+        if (startLevelCanvas != null)
+        {
+            startLevelCanvas.SetActive(true);
+        }
+        else
+        {
+            Debug.LogWarning("Start Level Canvas is not assigned!");
+        }
     }
 
     public void TogglePause()
@@ -231,6 +245,12 @@ public class GameManager : MonoBehaviour
             Debug.Log("No more levels to load. Ending session.");
             EndSession();
         }
+    }
+
+    public void StartLevel()
+    {
+        startLevelCanvas.SetActive(false);
+        Time.timeScale = 1f;
     }
 
     void EndSession()
