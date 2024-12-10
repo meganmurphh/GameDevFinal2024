@@ -1342,6 +1342,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 710dca5e29d2acc4e998cb020b3be456, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  explosionAnimation: {fileID: 2433282508537954060, guid: 3ef3ae421f71c5c4e97fe12dc2fc6312, type: 3}
+  elimZoneAnimation: {fileID: 1141330259687333427, guid: 6718dc24203da53468af9ada8fef7d6d, type: 3}
 --- !u!1 &213192709
 GameObject:
   m_ObjectHideFlags: 0
@@ -2859,7 +2861,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1568803527}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
         m_MethodName: LoadNextLevel
         m_Mode: 1
@@ -3522,7 +3524,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1568803527}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
         m_MethodName: TogglePause
         m_Mode: 1
@@ -4154,7 +4156,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 24
+    m_FontSize: 40
     m_FontStyle: 1
     m_BestFit: 0
     m_MinSize: 2
@@ -4165,7 +4167,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Start Level
+  m_Text: Start
 --- !u!222 &991369068
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5323,7 +5325,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1568803527}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
         m_MethodName: ResumeGame
         m_Mode: 1
@@ -8488,9 +8490,13 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3973698698773613995, guid: 78d0b416b42c5d24c9686bac0dcb6cbc, type: 3}
+      propertyPath: balloonPopAnimation
+      value: 
+      objectReference: {fileID: 4021103657954561961, guid: 5c755f9bc5253ea418e919994537dcc7, type: 3}
     - target: {fileID: 8181943182120700643, guid: 78d0b416b42c5d24c9686bac0dcb6cbc, type: 3}
       propertyPath: followSpeed
-      value: 33
+      value: 25
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class ObstacleCollision : MonoBehaviour
 {
-
     public GameObject explosionAnimation;
     public GameObject elimZoneAnimation;
 
@@ -24,8 +23,10 @@ public class ObstacleCollision : MonoBehaviour
                     Debug.LogWarning("bomb animation prefab not assigned");
                 }
 
+                gameObject.SetActive(false);
                 Destroy(other.gameObject);
 
+                Invoke("ShowBirdAfterDelay", 1.5f);
             }
             else
             {
@@ -48,12 +49,16 @@ public class ObstacleCollision : MonoBehaviour
                 {
                     Debug.LogWarning("elim zone animation prefab not assigned");
                 }
-
             }
             else
             {
                 Debug.LogError("GameManager not found!");
             }
         }
+    }
+
+    void ShowBirdAfterDelay()
+    {
+        gameObject.SetActive(true);
     }
 }

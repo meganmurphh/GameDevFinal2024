@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -153,6 +154,7 @@ public class GameManager : MonoBehaviour
         if (lives > 0)
         {
             ResetPlayerPosition();
+            StartCoroutine(ShowStartLevelCanvasWithDelay());
         }
         else
         {
@@ -161,6 +163,14 @@ public class GameManager : MonoBehaviour
 
         uiManager.UpdateLives(lives);
     }
+
+    private IEnumerator ShowStartLevelCanvasWithDelay()
+    {
+        yield return new WaitForSeconds(1.5f);
+
+        ShowStartLevelCanvas();
+    }
+
 
     public void BalloonPopped()
     {
@@ -207,7 +217,8 @@ public class GameManager : MonoBehaviour
 
     void EndSession()
     {
-        if (!sessionEnded)
+
+        if (finalScoreText != null)
         {
             sessionEnded = true;
 
