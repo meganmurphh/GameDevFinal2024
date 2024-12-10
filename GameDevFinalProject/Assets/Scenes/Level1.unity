@@ -4295,7 +4295,7 @@ MonoBehaviour:
   pauseMenu: {fileID: 2111265095}
   timerSlider: {fileID: 817817068}
   levelCompleteCanvas: {fileID: 578689603}
-  startLevelCanvas: {fileID: 0}
+  startLevelCanvas: {fileID: 652709474}
   balloonsParent: {fileID: 1548001221}
   player: {fileID: 1647701265}
   playerStartPosition: {fileID: 376635571}
