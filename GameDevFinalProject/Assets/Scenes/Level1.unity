@@ -1422,7 +1422,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Start
+  m_Text: Start Again
 --- !u!222 &276948579
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4373,11 +4373,11 @@ MonoBehaviour:
   - Level2
   - Level3
   - Level4
-  endMenuCavas: {fileID: 1090964511}
-  pauseMenuCanvas: {fileID: 0}
+  player: {fileID: 1647701265}
+  endMenuCanvas: {fileID: 1090964511}
+  pauseMenuCanvas: {fileID: 2111265095}
   levelCompleteCanvas: {fileID: 578689603}
-  startMenuCavas: {fileID: 652709474}
-  startAgainCanvas: {fileID: 1430033209}
+  startLevelCanvas: {fileID: 1430033209}
 --- !u!1 &1000315005
 GameObject:
   m_ObjectHideFlags: 0
@@ -5389,7 +5389,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1430033210
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6953,9 +6953,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 963194225}
+      - m_Target: {fileID: 963194231}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: 
+        m_MethodName: StartLevel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7714,7 +7714,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3173748369129310743, guid: 3f8a6251b34f48241acb8fd738eb8ae5, type: 3}
       propertyPath: followSpeed
-      value: 60
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 3173748369129310743, guid: 3f8a6251b34f48241acb8fd738eb8ae5, type: 3}
       propertyPath: startPosition

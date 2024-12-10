@@ -6692,8 +6692,8 @@ MonoBehaviour:
   - Level3
   - Level4
   player: {fileID: 965297558}
-  endMenuCavas: {fileID: 0}
-  pauseMenuCanvas: {fileID: 0}
+  endMenuCanvas: {fileID: 76459002}
+  pauseMenuCanvas: {fileID: 196453515}
   levelCompleteCanvas: {fileID: 504493704}
   startGameCavas: {fileID: 0}
   startLevelCanvas: {fileID: 1100667879}
