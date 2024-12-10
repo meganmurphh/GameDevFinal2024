@@ -26,6 +26,24 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public void Initialize()
+    {
+        if (scoreText == null)
+            scoreText = GameObject.Find("ScoreText")?.GetComponent<Text>();
+        if (livesText == null)
+            livesText = GameObject.Find("LivesText")?.GetComponent<Text>();
+        if (timerSlider == null)
+            timerSlider = GameObject.Find("TimerSlider")?.GetComponent<Slider>();
+        if (timerText == null)
+            timerText = GameObject.Find("TimerText")?.GetComponent<Text>();
+        if (levelText == null)
+            levelText = GameObject.Find("LevelText")?.GetComponent<Text>();
+        if (finalScoreText == null)
+            finalScoreText = GameObject.Find("FinalScoreText")?.GetComponent<Text>();
+        if (feedbackInputField == null)
+            feedbackInputField = GameObject.Find("FeedbackInputField")?.GetComponent<InputField>();
+    }
+
     public void UpdateScore(int score)
     {
         if (scoreText != null)
