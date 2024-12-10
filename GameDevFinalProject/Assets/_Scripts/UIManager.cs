@@ -11,20 +11,6 @@ public class UIManager : MonoBehaviour
     public Text finalScoreText;
     public InputField feedbackInputField;
 
-    void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-            Initialize();
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
-
     public void Initialize()
     {
         if (scoreText == null)
