@@ -6192,7 +6192,6 @@ GameObject:
   - component: {fileID: 1413727515}
   - component: {fileID: 1413727514}
   - component: {fileID: 1413727517}
-  - component: {fileID: 1413727518}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -6298,25 +6297,6 @@ MonoBehaviour:
   - Level4
   levelCompleteCanvas: {fileID: 504493704}
   startLevelCanvas: {fileID: 1100667879}
---- !u!114 &1413727518
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1413727513}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a1e0625a6f66a746b930e80afb93725, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  scoreText: {fileID: 1338974469}
-  livesText: {fileID: 1787149923}
-  timerSlider: {fileID: 811684951}
-  timerText: {fileID: 1713585310}
-  levelText: {fileID: 1128800378}
-  finalScoreText: {fileID: 2145505494}
-  feedbackInputField: {fileID: 219992694}
 --- !u!1 &1419628043
 GameObject:
   m_ObjectHideFlags: 0
