@@ -2578,7 +2578,7 @@ GameObject:
   - component: {fileID: 578689605}
   - component: {fileID: 578689604}
   m_Layer: 5
-  m_Name: StartScreenCanvas (1)
+  m_Name: LevelCompleteCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4314,6 +4314,7 @@ MonoBehaviour:
   endMenu: {fileID: 1090964511}
   pauseMenu: {fileID: 2111265095}
   timerSlider: {fileID: 817817068}
+  levelCompleteCanvas: {fileID: 578689603}
   balloonsParent: {fileID: 1548001221}
   player: {fileID: 1647701265}
   playerStartPosition: {fileID: 376635571}
