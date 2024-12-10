@@ -255,12 +255,10 @@ public class GameManager : MonoBehaviour
         if (currentLevelIndex < levels.Length)
         {
             string nextSceneName = levels[currentLevelIndex];
-            Debug.Log($"Loading next level: {nextSceneName}");
             SceneManager.LoadScene(nextSceneName);
         }
         else
         {
-            Debug.Log("No more levels to load. Ending session.");
             EndSession();
         }
     }
@@ -273,7 +271,6 @@ public class GameManager : MonoBehaviour
 
     void EndSession()
     {
-        Debug.Log("Session ended.");
 
         if (finalScoreText != null)
         {
