@@ -1425,6 +1425,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9f170876294b1654a8c0f2d4d1812b9b, type: 3}
+--- !u!1 &416186580 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3777507745517595920, guid: 9f170876294b1654a8c0f2d4d1812b9b, type: 3}
+  m_PrefabInstance: {fileID: 416186579}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &504493704
 GameObject:
   m_ObjectHideFlags: 0
@@ -4339,7 +4344,7 @@ PrefabInstance:
     - target: {fileID: 3887332783272849429, guid: c42efaefddb16ee479156b8ff18c914f, type: 3}
       propertyPath: finalScoreText
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 2013214104}
     - target: {fileID: 3887332783272849429, guid: c42efaefddb16ee479156b8ff18c914f, type: 3}
       propertyPath: feedbackInputField
       value: 
@@ -5079,7 +5084,7 @@ MonoBehaviour:
   - Level3
   - Level4
   player: {fileID: 965297558}
-  endMenuCanvas: {fileID: 0}
+  endMenuCanvas: {fileID: 416186580}
   pauseScreenCanvas: {fileID: 196453515}
   levelCompleteCanvas: {fileID: 504493704}
   startLevelCanvas: {fileID: 1100667879}
@@ -8003,6 +8008,17 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.07, y: 1.48}
   m_EdgeRadius: 0
+--- !u!114 &2013214104 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8502997573884354508, guid: 9f170876294b1654a8c0f2d4d1812b9b, type: 3}
+  m_PrefabInstance: {fileID: 416186579}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2016492287
 GameObject:
   m_ObjectHideFlags: 0
