@@ -29,8 +29,12 @@ public class UIManager : MonoBehaviour
 
     public void Initialize()
     {
+
+        Debug.Log("UIManager Initialize called.");
+
         if (finalScoreText == null)
         {
+            Debug.Log("Attempting to find EndScreenCanvas...");
             var endScreenCanvas = GameObject.Find("EndScreenCanvas");
             if (endScreenCanvas != null)
             {
@@ -47,7 +51,11 @@ public class UIManager : MonoBehaviour
                     endScreenCanvas.SetActive(false);
                 }
 
-                if (finalScoreText == null)
+                if (finalScoreText != null)
+                {
+                    Debug.Log("FinalScoreText found and assigned.");
+                }
+                else
                 {
                     Debug.LogError("FinalScoreText is missing or not found in EndScreenCanvas.");
                 }
@@ -60,17 +68,20 @@ public class UIManager : MonoBehaviour
 
         if (scoreText == null)
             scoreText = GameObject.Find("ScoreText")?.GetComponent<Text>();
+            Debug.Log(scoreText == null ? "ScoreText not found." : "ScoreText found and assigned.");
+
         if (livesText == null)
             livesText = GameObject.Find("LivesText")?.GetComponent<Text>();
+            Debug.Log(livesText == null ? "LivesText not found." : "LivesText found and assigned.");
+
         if (timerText == null)
             timerText = GameObject.Find("TimerText")?.GetComponent<Text>();
+            Debug.Log(timerText == null ? "TimerText not found." : "TimerText found and assigned.");
+
         if (levelText == null)
             levelText = GameObject.Find("LevelText")?.GetComponent<Text>();
+            Debug.Log(levelText == null ? "LevelText not found." : "LevelText found and assigned.");
 
-        if (scoreText == null) Debug.LogError("ScoreText is missing or not found in the scene.");
-        if (livesText == null) Debug.LogError("LivesText is missing or not found in the scene.");
-        if (timerText == null) Debug.LogError("TimerText is missing or not found in the scene.");
-        if (levelText == null) Debug.LogError("LevelText is missing or not found in the scene.");
     }
 
     public void UpdateScore(int score)

@@ -33,10 +33,7 @@ public class FollowMouse : MonoBehaviour
             {
                 rb.MovePosition(Vector3.MoveTowards(rb.position, targetPosition, followSpeed * Time.deltaTime));
             }
-            else
-            {
-                Debug.Log("Collision detected at: " + targetPosition);
-            }
+
         }
         else
         {
