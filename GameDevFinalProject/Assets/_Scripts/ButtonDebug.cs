@@ -2,48 +2,77 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class PauseButtonDebug : MonoBehaviour
+public class ButtonDiagnostics : MonoBehaviour
 {
-    public Canvas canvas;
-    public Button pauseButton;
+    public Button spawnBirdButton;
+    public GameObject eventSystem;
 
     void Start()
     {
-        if (canvas == null || pauseButton == null)
+        CheckButton();
+        CheckEventSystem();
+    }
+
+    void CheckButton()
+    {
+        if (spawnBirdButton == null)
         {
-            Debug.LogError("Canvas or PauseButton is not assigned.");
+            Debug.LogError("SpawnBirdButton is not assigned in the inspector.");
             return;
         }
 
-        // Check if Graphic Raycaster is attached to Canvas
-        if (canvas.GetComponent<GraphicRaycaster>() == null)
+        Debug.Log("SpawnBirdButton is assigned.");
+
+        // Check if Button component exists
+        if (spawnBirdButton.GetComponent<Button>() == null)
         {
-            Debug.LogError("Graphic Raycaster component is missing on Canvas.");
+            Debug.LogError("SpawnBirdButton does not have a Button component.");
+            return;
         }
 
-        // Check if EventSystem is present in the scene
-        if (FindObjectOfType<EventSystem>() == null)
-        {
-            Debug.LogError("EventSystem is missing in the scene.");
-        }
+        Debug.Log("SpawnBirdButton has a Button component.");
 
-        // Check if Button has Raycast Target enabled
-        if (!pauseButton.GetComponent<Image>().raycastTarget)
+        // Check if onClick event has listeners
+        if (spawnBirdButton.onClick.GetPersistentEventCount() == 0)
         {
-            Debug.LogError("Raycast Target is not enabled on the PauseButton.");
+            Debug.LogError("SpawnBirdButton does not have any onClick listeners.");
         }
-
-        // Check if Canvas is interactable
-        CanvasGroup canvasGroup = canvas.GetComponent<CanvasGroup>();
-        if (canvasGroup != null)
+        else
         {
-            if (!canvasGroup.interactable || !canvasGroup.blocksRaycasts)
+            Debug.Log("SpawnBirdButton has onClick listeners.");
+            for (int i = 0; i < spawnBirdButton.onClick.GetPersistentEventCount(); i++)
             {
-                Debug.LogError("CanvasGroup is not interactable or not blocking raycasts.");
+                Debug.Log($"Listener {i}: Method = {spawnBirdButton.onClick.GetPersistentMethodName(i)}, Target = {spawnBirdButton.onClick.GetPersistentTarget(i)}");
             }
         }
 
-        // Add a listener to the button to log clicks
-        pauseButton.onClick.AddListener(() => Debug.Log("Pause button clicked."));
+        // Check if the button is interactable
+        if (!spawnBirdButton.interactable)
+        {
+            Debug.LogError("SpawnBirdButton is not interactable.");
+        }
+        else
+        {
+            Debug.Log("SpawnBirdButton is interactable.");
+        }
+    }
+
+    void CheckEventSystem()
+    {
+        if (eventSystem == null)
+        {
+            Debug.LogError("EventSystem is not assigned in the inspector.");
+            return;
+        }
+
+        // Check if EventSystem component exists
+        if (eventSystem.GetComponent<EventSystem>() == null)
+        {
+            Debug.LogError("EventSystem GameObject does not have an EventSystem component.");
+        }
+        else
+        {
+            Debug.Log("EventSystem is present in the scene.");
+        }
     }
 }

@@ -32,7 +32,7 @@ public class GameManager : MonoBehaviour
     public GameObject endMenuCanvas;
     public GameObject pauseScreenCanvas;
     public GameObject levelCompleteCanvas;
-    public GameObject startLevelCanvas;
+    public GameObject spawnBirdCanvas;
 
     void Awake()
     {
@@ -232,7 +232,7 @@ public class GameManager : MonoBehaviour
         if (lives > 0)
         {
             ResetPlayerPosition();
-            StartCoroutine(ShowStartLevelCanvasWithDelay());
+            StartCoroutine(ShowBirdSpawnCanvasWithDelay());
         }
         else
         {
@@ -242,26 +242,26 @@ public class GameManager : MonoBehaviour
         UpdateUI();
     }
 
-    private IEnumerator ShowStartLevelCanvasWithDelay()
+    private IEnumerator ShowBirdSpawnCanvasWithDelay()
     {
         yield return new WaitForSeconds(1.5f);
-        ShowStartLevelCanvas();
+        ShowBirdSpawnCanvas();
     }
 
-    void ShowStartLevelCanvas()
+    void ShowBirdSpawnCanvas()
     {
-        if (startLevelCanvas != null)
+        if (spawnBirdCanvas != null)
         {
-            startLevelCanvas.SetActive(true);
+            spawnBirdCanvas.SetActive(true);
             Time.timeScale = 0f;
         }
     }
 
     public void StartLevel()
     {
-        if (startLevelCanvas != null)
+        if (spawnBirdCanvas != null)
         {
-            startLevelCanvas.SetActive(false);
+            spawnBirdCanvas.SetActive(false);
         }
 
         Time.timeScale = 1f;
