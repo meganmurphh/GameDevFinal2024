@@ -129,32 +129,34 @@ public class GameManager : MonoBehaviour
         balloonsPopped++;
         score++;
 
-        Debug.Log($"Balloons popped: {balloonsPopped}, Total balloons: {totalBalloons}");
-
         GameData.Score = score;
         UpdateUI();
 
         if (balloonsPopped == totalBalloons)
         {
-            if(currentLevelIndex != 4)
+            if (currentLevelIndex < levels.Length - 1)
             {
                 ShowLevelCompleteCanvas();
+            }
+            else
+            {
+                EndSession();
             }
         }
     }
 
     public void LoadNextLevel()
     {
+        currentLevelIndex++;
+
         GameData.Score = score;
         GameData.Lives = lives;
         GameData.RemainingTime = remainingTime;
-        currentLevelIndex++;
         GameData.CurrentLevel = currentLevelIndex;
 
         if (currentLevelIndex < levels.Length)
         {
             string nextSceneName = levels[currentLevelIndex];
-            Debug.Log($"Loading next level: {nextSceneName}");
             SceneManager.LoadScene(nextSceneName);
         }
         else
@@ -163,6 +165,7 @@ public class GameManager : MonoBehaviour
             EndSession();
         }
     }
+
 
     void EndSession()
     {

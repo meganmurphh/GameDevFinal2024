@@ -2257,7 +2257,7 @@ GameObject:
   - component: {fileID: 863783867}
   - component: {fileID: 863783866}
   m_Layer: 5
-  m_Name: StartText
+  m_Name: ButtonText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2315,7 +2315,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Continue to level 4
+  m_Text: Go to Level 4
 --- !u!222 &863783867
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5722,7 +5722,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: You have completed Level 1
+  m_Text: You have completed Level 3!
 --- !u!222 &2009550784
 CanvasRenderer:
   m_ObjectHideFlags: 0
