@@ -34,7 +34,6 @@ public class UIManager : MonoBehaviour
 
         if (finalScoreText == null)
         {
-            // Try to find EndScreenCanvas only if it's not already found
             if (GameObject.Find("EndScreenCanvas") == null)
             {
                 Debug.LogError("EndScreenCanvas is missing or not found in the scene.");

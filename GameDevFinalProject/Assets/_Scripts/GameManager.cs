@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System.Diagnostics;
 
 public class GameManager : MonoBehaviour
 {
@@ -36,6 +37,9 @@ public class GameManager : MonoBehaviour
     public GameObject spawnBirdCanvas;
 
     public Text finalScoreText;
+    public InputField feedbackInputField;
+    public Text confirmationText;
+    public Button submitFeedbackButton;
 
     void Awake()
     {
@@ -64,14 +68,14 @@ public class GameManager : MonoBehaviour
         uiManager = UIManager.Instance;
         if (uiManager == null)
         {
-            Debug.LogError("UIManager instance is not available!");
+            UnityEngine.Debug.LogError("UIManager instance is not available!");
             return;
         }
 
         balloonsParent = GameObject.Find("BalloonsParent");
         if (balloonsParent == null)
         {
-            Debug.LogError("BalloonsParent not found in the scene!");
+            UnityEngine.Debug.LogError("BalloonsParent not found in the scene!");
             return;
         }
 
@@ -105,25 +109,22 @@ public class GameManager : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        Debug.Log($"Scene loaded: {scene.name}");
+        UnityEngine.Debug.Log($"Scene loaded: {scene.name}");
 
-        // Pause the game when the scene is loaded
         Time.timeScale = 0f;
 
-        // Hide spawnBirdCanvas unless on the first level (or whichever level needs it)
-        if (currentLevelIndex > 0) // This ensures that it's hidden on levels after the first one
+        if (currentLevelIndex > 0) 
         {
             if (spawnBirdCanvas != null)
             {
-                spawnBirdCanvas.SetActive(true); // Show the canvas if necessary
+                spawnBirdCanvas.SetActive(true); 
             }
         }
 
-        // Initialize balloons and other UI elements
         balloonsParent = GameObject.Find("BalloonsParent");
         if (balloonsParent == null)
         {
-            Debug.LogError("BalloonsParent not found in the scene!");
+            UnityEngine.Debug.LogError("BalloonsParent not found in the scene!");
         }
         else
         {
@@ -177,7 +178,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("No more levels to load. Ending session.");
+            UnityEngine.Debug.Log("No more levels to load. Ending session.");
             EndSession();
         }
     }
@@ -192,16 +193,17 @@ public class GameManager : MonoBehaviour
 
         if (uiManager != null)
         {
-            Debug.Log("Displaying final score...");
+            UnityEngine.Debug.Log("Displaying final score...");
             finalScoreText.text = "Final Score: " + GameData.FinalScore;
 
         }
         else
         {
-            Debug.LogError("UIManager is not initialized!");
+            UnityEngine.Debug.LogError("UIManager is not initialized!");
         }
 
         SaveSessionData();
+
         if (endMenuCanvas != null)
         {
             endMenuCanvas.SetActive(true);
@@ -217,15 +219,20 @@ public class GameManager : MonoBehaviour
         {
             string sessionData = GenerateSessionDataString();
 
+            string feedback = feedbackInputField != null ? feedbackInputField.text : "No feedback provided";
+            sessionData += $"\nFeedback: {feedback}";
+
             string filePath = Path.Combine(Application.persistentDataPath, "SessionData.txt");
 
             File.WriteAllText(filePath, sessionData);
 
-            Debug.Log($"Session data saved successfully at {filePath}");
+            UnityEngine.Debug.Log($"Session data saved successfully at {filePath}");
+
+            OpenSessionDataFile();
         }
         catch (Exception ex)
         {
-            Debug.LogError($"Failed to save session data: {ex.Message}");
+            UnityEngine.Debug.LogError($"Failed to save session data: {ex.Message}");
         }
     }
 
@@ -242,7 +249,7 @@ public class GameManager : MonoBehaviour
     {
         if (uiManager == null)
         {
-            Debug.LogError("UIManager is not available!");
+            UnityEngine.Debug.LogError("UIManager is not available!");
             return;
         }
 
@@ -256,13 +263,13 @@ public class GameManager : MonoBehaviour
     {
         if (levelCompleteCanvas != null)
         {
-            Debug.Log("Showing level complete canvas.");
+            UnityEngine.Debug.Log("Showing level complete canvas.");
             levelCompleteCanvas.SetActive(true);
             Time.timeScale = 0f;
         }
         else
         {
-            Debug.LogWarning("Level complete canvas is not assigned!");
+            UnityEngine.Debug.LogWarning("Level complete canvas is not assigned!");
         }
     }
 
@@ -361,7 +368,7 @@ public class GameManager : MonoBehaviour
 
     public void QuitGame()
     {
-        Debug.Log("Quitting the game...");
+        UnityEngine.Debug.Log("Quitting the game...");
         Application.Quit();
     }
 
@@ -391,6 +398,40 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1f;
 
         InitializeGame();
+    }
+
+    public void SubmitEndButton()
+    {
+        SaveSessionData();
+
+        if (confirmationText != null)
+        {
+            confirmationText.gameObject.SetActive(true);
+            confirmationText.text = "Feedback submitted successfully!";
+
+        }
+
+        OpenSessionDataFile();
+    }
+
+    private void OpenSessionDataFile()
+    {
+        try
+        {
+            string filePath = Path.Combine(Application.persistentDataPath, "SessionData.txt");
+            if (File.Exists(filePath))
+            {
+                Process.Start(filePath);
+            }
+            else
+            {
+                UnityEngine.Debug.LogWarning("SessionData.txt not found.");
+            }
+        }
+        catch (Exception ex)
+        {
+            UnityEngine.Debug.LogError($"Failed to open file: {ex.Message}");
+        }
     }
 
     [Serializable]
