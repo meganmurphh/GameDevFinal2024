@@ -358,6 +358,34 @@ public class GameManager : MonoBehaviour
         Application.Quit();
     }
 
+    public void PlayAgain()
+    {
+        score = 0;
+        lives = totalLives;
+        remainingTime = sessionDuration;
+
+        totalBalloons = balloonsParent.transform.childCount;
+        balloonsPopped = 0;
+
+        if (player != null && playerStartPosition != null)
+        {
+            player.transform.position = playerStartPosition.position;
+        }
+
+        if (endMenuCanvas != null)
+        {
+            endMenuCanvas.SetActive(false);
+        }
+
+        currentLevelIndex = 0;
+        string levelToLoad = levels[currentLevelIndex];
+        SceneManager.LoadScene(levelToLoad);
+
+        Time.timeScale = 1f;
+
+        InitializeGame();
+    }
+
     [Serializable]
     public class SessionData
     {
