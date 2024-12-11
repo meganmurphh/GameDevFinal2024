@@ -374,6 +374,7 @@ public class GameManager : MonoBehaviour
 
     public void PlayAgain()
     {
+        GameData.Reset();
         score = 0;
         lives = totalLives;
         remainingTime = sessionDuration;
