@@ -3,6 +3,7 @@ using System.IO;
 using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -33,6 +34,8 @@ public class GameManager : MonoBehaviour
     public GameObject pauseScreenCanvas;
     public GameObject levelCompleteCanvas;
     public GameObject spawnBirdCanvas;
+
+    public Text finalScoreText;
 
     void Awake()
     {
@@ -189,13 +192,24 @@ public class GameManager : MonoBehaviour
 
         if (uiManager != null)
         {
-            uiManager.DisplayFinalScore(GameData.FinalScore);
+            Debug.Log("Displaying final score...");
+            finalScoreText.text = "Final Score: " + GameData.FinalScore;
+
+        }
+        else
+        {
+            Debug.LogError("UIManager is not initialized!");
         }
 
         SaveSessionData();
-        endMenuCanvas?.SetActive(true);
+        if (endMenuCanvas != null)
+        {
+            endMenuCanvas.SetActive(true);
+        }
+
         Time.timeScale = 0f;
     }
+
 
     public void SaveSessionData()
     {

@@ -4399,7 +4399,6 @@ GameObject:
   - component: {fileID: 1483683471}
   - component: {fileID: 1483683470}
   - component: {fileID: 1483683473}
-  - component: {fileID: 1483683474}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -4507,20 +4506,7 @@ MonoBehaviour:
   pauseScreenCanvas: {fileID: 1139850570}
   levelCompleteCanvas: {fileID: 1684389040}
   spawnBirdCanvas: {fileID: 1700098143}
---- !u!114 &1483683474
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1483683469}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d64d11194d3df44baafdf864712fd9d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spawnBirdButton: {fileID: 1210657446}
-  eventSystem: {fileID: 1078770058}
+  finalScoreText: {fileID: 1022646102}
 --- !u!1 &1531892423
 GameObject:
   m_ObjectHideFlags: 0

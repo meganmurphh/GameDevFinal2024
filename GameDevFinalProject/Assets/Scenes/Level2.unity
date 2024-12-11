@@ -5156,6 +5156,7 @@ MonoBehaviour:
   pauseScreenCanvas: {fileID: 196453515}
   levelCompleteCanvas: {fileID: 504493704}
   spawnBirdCanvas: {fileID: 1100667879}
+  finalScoreText: {fileID: 2013214104}
 --- !u!1 &1446613185
 GameObject:
   m_ObjectHideFlags: 0
