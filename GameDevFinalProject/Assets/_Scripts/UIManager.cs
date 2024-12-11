@@ -64,6 +64,8 @@ public class UIManager : MonoBehaviour
             {
                 Debug.LogError("EndScreenCanvas is missing or not found in the scene.");
             }
+
+
         }
 
         if (scoreText == null)

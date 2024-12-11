@@ -6230,9 +6230,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 396982926}
     - target: {fileID: 3887332783272849429, guid: c42efaefddb16ee479156b8ff18c914f, type: 3}
+      propertyPath: endScreenCanvas
+      value: 
+      objectReference: {fileID: 1090964511}
+    - target: {fileID: 3887332783272849429, guid: c42efaefddb16ee479156b8ff18c914f, type: 3}
       propertyPath: feedbackInputField
       value: 
       objectReference: {fileID: 62961412}
+    - target: {fileID: 3887332783272849429, guid: c42efaefddb16ee479156b8ff18c914f, type: 3}
+      propertyPath: levelCompleteCanvas
+      value: 
+      objectReference: {fileID: 578689603}
     - target: {fileID: 5511600895734771629, guid: c42efaefddb16ee479156b8ff18c914f, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0

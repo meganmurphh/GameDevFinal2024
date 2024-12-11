@@ -128,13 +128,18 @@ public class GameManager : MonoBehaviour
     {
         balloonsPopped++;
         score++;
+
+        Debug.Log($"Balloons popped: {balloonsPopped}, Total balloons: {totalBalloons}");
+
         GameData.Score = score;
         UpdateUI();
 
         if (balloonsPopped == totalBalloons)
         {
-            ShowLevelCompleteCanvas();
-            LoadNextLevel();
+            if(currentLevelIndex != 4)
+            {
+                ShowLevelCompleteCanvas();
+            }
         }
     }
 
@@ -143,7 +148,6 @@ public class GameManager : MonoBehaviour
         GameData.Score = score;
         GameData.Lives = lives;
         GameData.RemainingTime = remainingTime;
-
         currentLevelIndex++;
         GameData.CurrentLevel = currentLevelIndex;
 
@@ -215,6 +219,7 @@ public class GameManager : MonoBehaviour
     {
         if (levelCompleteCanvas != null)
         {
+            Debug.Log("Showing level complete canvas.");
             levelCompleteCanvas.SetActive(true);
             Time.timeScale = 0f;
         }
@@ -223,6 +228,7 @@ public class GameManager : MonoBehaviour
             Debug.LogWarning("Level complete canvas is not assigned!");
         }
     }
+
 
     public void PlayerHitObstacle()
     {
