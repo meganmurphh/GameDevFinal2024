@@ -1420,6 +1420,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: EndScreenCanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 3777507745517595920, guid: 9f170876294b1654a8c0f2d4d1812b9b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
