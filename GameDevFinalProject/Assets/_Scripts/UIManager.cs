@@ -64,21 +64,23 @@ public class UIManager : MonoBehaviour
             {
                 Debug.LogError("EndScreenCanvas is missing or not found in the scene.");
             }
-
-
         }
 
         if (scoreText == null)
             scoreText = GameObject.Find("ScoreText")?.GetComponent<Text>();
+        Debug.Log(scoreText == null ? "ScoreText not found." : "ScoreText found and assigned.");
 
         if (livesText == null)
             livesText = GameObject.Find("LivesText")?.GetComponent<Text>();
+        Debug.Log(livesText == null ? "LivesText not found." : "LivesText found and assigned.");
 
         if (timerText == null)
             timerText = GameObject.Find("TimerText")?.GetComponent<Text>();
+        Debug.Log(timerText == null ? "TimerText not found." : "TimerText found and assigned.");
 
         if (levelText == null)
             levelText = GameObject.Find("LevelText")?.GetComponent<Text>();
+        Debug.Log(levelText == null ? "LevelText not found." : "LevelText found and assigned.");
 
     }
 
