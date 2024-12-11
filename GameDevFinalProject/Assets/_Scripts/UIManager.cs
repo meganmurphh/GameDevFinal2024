@@ -34,36 +34,33 @@ public class UIManager : MonoBehaviour
 
         if (finalScoreText == null)
         {
-            Debug.Log("Attempting to find EndScreenCanvas...");
-            var endScreenCanvas = GameObject.Find("EndScreenCanvas");
-            if (endScreenCanvas != null)
+            // Try to find EndScreenCanvas only if it's not already found
+            if (GameObject.Find("EndScreenCanvas") == null)
             {
-                bool wasActive = endScreenCanvas.activeSelf;
-                if (!wasActive)
-                {
-                    endScreenCanvas.SetActive(true);
-                }
+                Debug.LogError("EndScreenCanvas is missing or not found in the scene.");
+                return;
+            }
 
-                finalScoreText = endScreenCanvas.transform.Find("Final Score Text")?.GetComponent<Text>();
+            var endScreenCanvas = GameObject.Find("EndScreenCanvas");
+            if (endScreenCanvas != null && !endScreenCanvas.activeSelf)
+            {
+                endScreenCanvas.SetActive(true);
+            }
 
-                if (!wasActive)
-                {
-                    endScreenCanvas.SetActive(false);
-                }
+            finalScoreText = endScreenCanvas.transform.Find("Final Score Text")?.GetComponent<Text>();
 
-                if (finalScoreText != null)
-                {
-                    Debug.Log("FinalScoreText found and assigned.");
-                }
-                else
-                {
-                    Debug.LogError("FinalScoreText is missing or not found in EndScreenCanvas.");
-                }
+            if (finalScoreText != null)
+            {
+                Debug.Log("FinalScoreText found and assigned.");
             }
             else
             {
-                Debug.LogError("EndScreenCanvas is missing or not found in the scene.");
+                Debug.LogError("FinalScoreText is missing or not found in EndScreenCanvas.");
             }
+        }
+        else
+        {
+            Debug.Log("FinalScoreText already assigned.");
         }
 
         if (scoreText == null)
@@ -81,6 +78,10 @@ public class UIManager : MonoBehaviour
         if (levelText == null)
             levelText = GameObject.Find("LevelText")?.GetComponent<Text>();
         Debug.Log(levelText == null ? "LevelText not found." : "LevelText found and assigned.");
+
+        if (finalScoreText == null)
+            finalScoreText = GameObject.Find("Final Score Text")?.GetComponent<Text>();
+        Debug.Log(levelText == null ? "FinalScoreText not found." : "FinalScoreText found and assigned.");
 
     }
 
