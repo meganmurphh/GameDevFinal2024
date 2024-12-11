@@ -103,8 +103,20 @@ public class GameManager : MonoBehaviour
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         Debug.Log($"Scene loaded: {scene.name}");
-        Time.timeScale = 1f;
 
+        // Pause the game when the scene is loaded
+        Time.timeScale = 0f;
+
+        // Hide spawnBirdCanvas unless on the first level (or whichever level needs it)
+        if (currentLevelIndex > 0) // This ensures that it's hidden on levels after the first one
+        {
+            if (spawnBirdCanvas != null)
+            {
+                spawnBirdCanvas.SetActive(true); // Show the canvas if necessary
+            }
+        }
+
+        // Initialize balloons and other UI elements
         balloonsParent = GameObject.Find("BalloonsParent");
         if (balloonsParent == null)
         {
@@ -123,6 +135,7 @@ public class GameManager : MonoBehaviour
             UpdateUI();
         }
     }
+
 
     public void BalloonPopped()
     {
@@ -270,15 +283,17 @@ public class GameManager : MonoBehaviour
     {
         if (spawnBirdCanvas != null)
         {
-            spawnBirdCanvas.SetActive(false);
+            spawnBirdCanvas.SetActive(false); // Hide the spawn bird canvas
         }
 
-        Time.timeScale = 1f;
+        Time.timeScale = 1f; // Resume the game (start the timer)
+
         if (followMouseScript != null)
         {
-            followMouseScript.enabled = true;
+            followMouseScript.enabled = true; // Enable bird movement
         }
     }
+
 
     void ResetPlayerPosition()
     {
