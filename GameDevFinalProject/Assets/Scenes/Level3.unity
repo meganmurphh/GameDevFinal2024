@@ -1261,7 +1261,7 @@ GameObject:
   - component: {fileID: 380302871}
   - component: {fileID: 380302870}
   m_Layer: 5
-  m_Name: Button (Legacy)
+  m_Name: SpawnBirdButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2746,7 +2746,7 @@ GameObject:
   - component: {fileID: 991369068}
   - component: {fileID: 991369067}
   m_Layer: 5
-  m_Name: Text (Legacy)
+  m_Name: ButtonText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4441,7 +4441,7 @@ MonoBehaviour:
   endMenuCanvas: {fileID: 2048175779}
   pauseScreenCanvas: {fileID: 235208289}
   levelCompleteCanvas: {fileID: 1473464038}
-  startLevelCanvas: {fileID: 1937417623}
+  spawnBirdCanvas: {fileID: 1937417623}
 --- !u!1 &1637287740
 GameObject:
   m_ObjectHideFlags: 0
@@ -5479,7 +5479,7 @@ GameObject:
   - component: {fileID: 1937417625}
   - component: {fileID: 1937417624}
   m_Layer: 5
-  m_Name: StartLevelCanvas
+  m_Name: SpawnBirdCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
