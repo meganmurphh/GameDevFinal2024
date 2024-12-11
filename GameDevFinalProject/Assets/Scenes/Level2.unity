@@ -8710,7 +8710,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3375514766986033024, guid: 418a441be97932741af1e72107394bb3, type: 3}
       propertyPath: followSpeed
-      value: 5
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 4589068460948779771, guid: 418a441be97932741af1e72107394bb3, type: 3}
       propertyPath: m_LocalPosition.x

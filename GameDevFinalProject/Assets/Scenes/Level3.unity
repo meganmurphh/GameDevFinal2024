@@ -6492,7 +6492,7 @@ PrefabInstance:
       objectReference: {fileID: 4021103657954561961, guid: 5c755f9bc5253ea418e919994537dcc7, type: 3}
     - target: {fileID: 8181943182120700643, guid: 78d0b416b42c5d24c9686bac0dcb6cbc, type: 3}
       propertyPath: followSpeed
-      value: 5
+      value: 40
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

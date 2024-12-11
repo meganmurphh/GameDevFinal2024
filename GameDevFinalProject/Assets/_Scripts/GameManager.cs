@@ -215,20 +215,27 @@ public class GameManager : MonoBehaviour
     {
         try
         {
-            string filePath = Path.Combine(Application.persistentDataPath, "SessionData.json");
-            File.WriteAllText(filePath, JsonUtility.ToJson(new SessionData
-            {
-                PlayerID = Guid.NewGuid().ToString(),
-                StartTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
-                Duration = (sessionDuration - remainingTime).ToString("F2") + " seconds",
-                Score = score,
-                FinalScore = GameData.FinalScore
-            }, true));
+            string sessionData = GenerateSessionDataString();
+
+            string filePath = Path.Combine(Application.persistentDataPath, "SessionData.txt");
+
+            File.WriteAllText(filePath, sessionData);
+
+            Debug.Log($"Session data saved successfully at {filePath}");
         }
         catch (Exception ex)
         {
             Debug.LogError($"Failed to save session data: {ex.Message}");
         }
+    }
+
+    private string GenerateSessionDataString()
+    {
+        return $"PlayerID: {Guid.NewGuid()}\n" +
+               $"StartTime: {DateTime.Now:yyyy-MM-dd HH:mm:ss}\n" +
+               $"Duration: {(sessionDuration - remainingTime):F2} seconds\n" +
+               $"Score: {score}\n" +
+               $"FinalScore: {GameData.FinalScore}\n";
     }
 
     public void UpdateUI()
@@ -297,14 +304,14 @@ public class GameManager : MonoBehaviour
     {
         if (spawnBirdCanvas != null)
         {
-            spawnBirdCanvas.SetActive(false); // Hide the spawn bird canvas
+            spawnBirdCanvas.SetActive(false);
         }
 
-        Time.timeScale = 1f; // Resume the game (start the timer)
+        Time.timeScale = 1f;
 
         if (followMouseScript != null)
         {
-            followMouseScript.enabled = true; // Enable bird movement
+            followMouseScript.enabled = true;
         }
     }
 

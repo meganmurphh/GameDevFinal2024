@@ -5531,7 +5531,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3173748369129310743, guid: 3f8a6251b34f48241acb8fd738eb8ae5, type: 3}
       propertyPath: followSpeed
-      value: 5
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 3173748369129310743, guid: 3f8a6251b34f48241acb8fd738eb8ae5, type: 3}
       propertyPath: startPosition
